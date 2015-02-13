@@ -1,30 +1,33 @@
 require 'spec_helper'
 
-include Magister::Context
+include Magister::Request
 
-describe Context do
+describe Request do
 
   it 'should have a path' do
     request = double("request", path: "/")
-    context = Context.new(request)
-    expect(context.path).to eq([:root_context])
+    context = Request.new(request)
+    expect(context.context).to eq(["root"])
   end
 
-  it 'should ignore the name' do
+  it 'should store the name separate from the context' do
     request = double("request", path: "/foobar")
-    context = Context.new(request)
-    expect(context.path).to eq([:root_context])
+    context = Request.new(request)
+    expect(context.context).to eq(["root"])
+    expect(context.name).to eq("foobar");
   end
 
   it 'should append a path component' do
     request = double("request", path: "/foo/bar")
-    context = Context.new(request)
-    expect(context.path).to eq([:root_context, "foo"])
+    context = Request.new(request)
+    expect(context.context).to eq(["root", "foo"])
+    expect(context.name).to eq("bar")
   end
 
   it 'should append multiple path components' do
     request = double("request", path: "/foo/baz/quux/bar")
-    context = Context.new(request)
-    expect(context.path).to eq([:root_context, "foo", "baz", "quux"])
+    context = Request.new(request)
+    expect(context.context).to eq(["root", "foo", "baz", "quux"])
+    expect(context.name).to eq("bar")
   end
 end

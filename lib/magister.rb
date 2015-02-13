@@ -1,5 +1,5 @@
-require './lib/context.rb'
+require './lib/request.rb'
 
 module Magister
-  include Magister::Context
+  include Magister::Request
 end
