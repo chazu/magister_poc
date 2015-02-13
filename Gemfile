@@ -4,3 +4,5 @@ gem 'sinatra'
 gem 'rspec'
 gem 'rspec-mocks'
 gem 'pry'
+
+gem 's3'
