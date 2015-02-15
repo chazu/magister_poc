@@ -38,9 +38,11 @@ module Magister
     get '*' do
       req = Request::Request.new(request)
       # TODO Entity.new doesnt make sense here
-      requested_entity = Entity::Entity.new(req, nil)
-      if requested_entity.exists?
+      index_key = Entity.request_index_key(req)
+      ent = Entity::Entity.find(index_key)
+      if ent
         status 200
+        body ent.content
       else
         status 404
       end

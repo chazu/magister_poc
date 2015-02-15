@@ -1,22 +1,28 @@
 module Magister
   module Entity
 
-      def self.request_index_key(request)
-          (request.context ? "/" : "") +
-          request.context.join("/") +
-          (request.name && request.context.any? ? "/" : "") +
-          (request.name ? request.name : "")
-      end
+    # TODO Just make Request and Entity classes with class methods,
+    # instead of modules with classes in them
+    
+    def self.request_index_key(request)
+      (request.context ? "/" : "") +
+        request.context.join("/") +
+        (request.name && request.context.any? ? "/" : "") +
+        (request.name ? request.name : "")
+    end
 
     class Entity
 
       attr_accessor :name, :context
 
-      def self.find(request)
-        Magister::Config.index.keys.include? request_index_key request
+      def self.find(index_key)
+        # TODO Should return an Entity instance
+        if Magister::Config.index.keys.include? index_key
+          # TODO Entity should take an index key for initialization
       end
 
       def initialize(magister_request, content)
+        # TODO content should be optional so we dont have to pass nil in
         @context = magister_request.context
         @name = magister_request.name
         @is_context = magister_request.is_context
@@ -41,6 +47,10 @@ module Magister
       def metadata
         # TODO Spec out this method
         Magister::Config.index[index_key]["metadata"]
+      end
+
+      def content
+        @content ||= Magister::Config.store.objects[index_key].content
       end
 
       def persist
