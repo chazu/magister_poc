@@ -1,5 +1,43 @@
 include Magister::Entity
 include Magister::Request
+
+describe Magister::Entity do
+
+  context 'request_index_key' do
+    it 'should return a slash for root entity' do
+      request = double("request", path: "/", env: {})
+      req = Request.new(request)
+
+      result = Magister::Entity.request_index_key(req)
+      expect(result).to eq("/");
+    end
+
+    it 'should append the name of the entity requested' do
+      request = double("request", path: "/foo", env: {})
+      req = Request.new(request)
+
+      result = Magister::Entity.request_index_key(req)
+      expect(result).to eq("/foo");
+    end
+
+    it 'should include context path' do
+      request = double("request", path: "/foo/bar/baz", env: {})
+      req = Request.new(request)
+
+      result = Magister::Entity.request_index_key(req)
+      expect(result).to eq("/foo/bar/baz");
+    end
+
+    it 'should not include a terminal slash if entity is context' do
+      request = double("request", path: "/foo/bar/baz/", env: {})
+      req = Request.new(request)
+
+      result = Magister::Entity.request_index_key(req)
+      expect(result).to eq("/foo/bar/baz");
+    end
+  end
+end
+
 describe Entity do
 
   it 'should take a request for initialization' do
