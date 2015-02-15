@@ -1,5 +1,6 @@
 require './lib/magister.rb'
 
+require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
 
@@ -22,13 +23,20 @@ def find_or_create_index_for(store)
   puts "Checking for index in remote store..."
   obj = store.objects
 
-  obj.map(&:to_s).include?("_index") ? store.objects.find("_index").content : initialize_index
+  obj.map(&:to_s).include?("/_index") ? store.objects.find("/_index").content : initialize_index
 end
 
 index = find_or_create_index_for store
 
 Magister::Config.set_store store
 Magister::Config.set_index index
+
+scheduler = Rufus::Scheduler.new
+
+# scheduler.every '10s' do
+#   Magister::Entity::Entity.new('/_index', index).persist
+# end
+
 
 puts "==="
 
@@ -37,12 +45,12 @@ module Magister
 
     get '*' do
       req = Request::Request.new(request)
-      # TODO Entity.new doesnt make sense here
       index_key = Entity.request_index_key(req)
       ent = Entity::Entity.find(index_key)
+
       if ent
         status 200
-        body ent.content
+        body ent.content || ""
       else
         status 404
       end
@@ -55,7 +63,9 @@ module Magister
       #      Sometimes well want to save form data,
       #      sometimes the request body
 
-      new_entity = Entity::Entity.new(req, request.body)
+      new_entity = Entity::Entity.new({
+          
+        }, request.body)
       if new_entity.exists? # exists? means is already saved
         status 405 # Can't post it, its already there bro
       else

@@ -17,16 +17,24 @@ module Magister
 
       def self.find(index_key)
         # TODO Should return an Entity instance
-        if Magister::Config.index.keys.include? index_key
-          # TODO Entity should take an index key for initialization
+        if index_key == "/"
+          Entity.new({ context: [],
+            name: nil,
+            is_context: true
+          }, nil)
+        else
+          if Magister::Config.index.keys.include? index_key
+            true # TODO Entity should take an index key for initialization
+          end
+        end
       end
 
-      def initialize(magister_request, content)
+      def initialize(options, content)
         # TODO content should be optional so we dont have to pass nil in
-        @context = magister_request.context
-        @name = magister_request.name
-        @is_context = magister_request.is_context
-        @content = content
+        @context = options[:context]
+        @name = options[:name]
+        @is_context = options[:is_context]
+        @content = content ? content : nil
       end
 
       def index_key
@@ -50,7 +58,12 @@ module Magister
       end
 
       def content
-        @content ||= Magister::Config.store.objects[index_key].content
+        # TODO Handle root context case
+        if index_key == "/"
+          return "TODO"
+        else
+          @content ||= Magister::Config.store.objects.find(index_key).content
+        end
       end
 
       def persist
