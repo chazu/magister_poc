@@ -71,5 +71,28 @@ describe Entity do
       entity = Entity.new(req)
       expect(entity.is_context?).to eq(true)
     end
+
+    it 'should return false for non-context requests' do
+      request = double("request", path: "/foo/bar", env: {})
+      req = Request.new(request)
+      entity = Entity.new(req)
+      expect(entity.is_context?).to eq(false)
+    end
+
+    it 'should return true for context requests based on header' do
+      request = double("request", path: "/foo/bar/baz", env: {'HTTP_MAGISTER_IS_CONTEXT' => 'true'})
+      req = Request.new(request)
+
+      entity = Entity.new(req)
+      expect(entity.is_context?).to eq(true)
+    end
+
+    it 'should return true for context requests based on terminating slash' do
+      request = double("request", path: "/foo/bar/baz/", env: {})
+      req = Request.new(request)
+
+      entity = Entity.new(req)
+      expect(entity.is_context?).to eq(true)
+    end
   end
 end

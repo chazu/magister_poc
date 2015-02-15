@@ -30,4 +30,8 @@ describe Request do
     expect(mag_request.context).to eq(["foo", "baz", "quux"])
     expect(mag_request.name).to eq("bar")
   end
+
+  context 'name' do
+    # TODO
+  end
 end

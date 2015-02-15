@@ -27,24 +27,27 @@ end
 
 index = find_or_create_index_for store
 
+Magister::Config.set_store store
+Magister::Config.set_index index
+
 puts "==="
 
 module Magister
-
   class MagisterApp < Sinatra::Application
 
-
-
     get '*' do
-      context = Request::Request.new(request)
-
-      context.path.to_s
+      req = Request::Request.new(request)
+      requested_entity = Entity::Entity.new(req)
+      if requested_entity.exists?
+        "it exists"
+      else
+        "nope"
+      end
     end
 
     post '*' do
-      context = Request::Request.new(request)
-
-      index
+      req = Request::Request.new(request)
+      # TODO Handle multipart uploads here
     end
   end
 end
