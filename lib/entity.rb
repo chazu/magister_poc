@@ -1,8 +1,20 @@
 module Magister
   module Entity
+
+      def self.request_index_key(request)
+          (request.context ? "/" : "") +
+          request.context.join("/") +
+          (request.name && request.context.any? ? "/" : "") +
+          (request.name ? request.name : "")
+      end
+
     class Entity
 
       attr_accessor :name, :context
+
+      def self.find(request)
+        Magister::Config.index.keys.include? request_index_key request
+      end
 
       def initialize(magister_request, content)
         @context = magister_request.context
