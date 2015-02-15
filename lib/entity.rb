@@ -18,7 +18,7 @@ module Magister
       end
 
       def exists?
-        Magister::Config.index.keys.include?(index_key)
+        (index_key == "/") ? true : Magister::Config.index.keys.include?(index_key)
       end
 
       def is_context?
