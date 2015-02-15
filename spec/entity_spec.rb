@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 include Magister::Entity
 include Magister::Request
 describe Entity do
@@ -8,7 +6,7 @@ describe Entity do
     request = double("request", path: "/foo", env: {})
     req = Request.new(request)
 
-    expect { entity = Entity.new(req) }.not_to raise_error
+    expect { entity = Entity.new(req, nil) }.not_to raise_error
   end
 
   context 'index key' do
@@ -16,7 +14,7 @@ describe Entity do
       request = double("request", path: "/foo", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity).to respond_to :index_key
     end
 
@@ -24,7 +22,7 @@ describe Entity do
       request = double("request", path: "/", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.index_key).to eq("/");
     end
 
@@ -32,7 +30,7 @@ describe Entity do
       request = double("request", path: "/foo", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.index_key).to eq("/foo");
     end
 
@@ -40,7 +38,7 @@ describe Entity do
       request = double("request", path: "/foo/bar/baz", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.index_key).to eq("/foo/bar/baz");
     end
 
@@ -48,7 +46,7 @@ describe Entity do
       request = double("request", path: "/foo/bar/baz/", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.index_key).to eq("/foo/bar/baz");
     end
   end
@@ -58,7 +56,7 @@ describe Entity do
       request = double("request", path: "/", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.exists?).to eq(true)
     end
   end
@@ -68,14 +66,14 @@ describe Entity do
       request = double("request", path: "/", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.is_context?).to eq(true)
     end
 
     it 'should return false for non-context requests' do
       request = double("request", path: "/foo/bar", env: {})
       req = Request.new(request)
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.is_context?).to eq(false)
     end
 
@@ -83,7 +81,7 @@ describe Entity do
       request = double("request", path: "/foo/bar/baz", env: {'HTTP_MAGISTER_IS_CONTEXT' => 'true'})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.is_context?).to eq(true)
     end
 
@@ -91,7 +89,7 @@ describe Entity do
       request = double("request", path: "/foo/bar/baz/", env: {})
       req = Request.new(request)
 
-      entity = Entity.new(req)
+      entity = Entity.new(req, nil)
       expect(entity.is_context?).to eq(true)
     end
   end

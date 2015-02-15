@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 include Magister::Request
 
 describe Request do
