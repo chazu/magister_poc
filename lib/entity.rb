@@ -77,12 +77,9 @@ module Magister
         Magister::Config.index[index_key] = {
           metadata: {}
         }
-        store_object = Magister::Config.store.objects.build(s3_key)
-        if @content
-          store_object.content = @content
-        end
-
-        store_object.save
+        store_object = Magister::Config.store.put_object({key: s3_key,
+            body: @content
+          })
       end
 
     end

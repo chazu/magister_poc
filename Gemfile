@@ -10,5 +10,5 @@ gem 'pry'
 gem 'shotgun'
 gem 'rufus-scheduler'
 
-gem 's3'
+gem 'aws-sdk', '~> 2'
 gem 'daybreak'
