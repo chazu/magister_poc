@@ -2,6 +2,25 @@ require './lib/request.rb'
 require './lib/entity.rb'
 
 module Magister
+
+  def self.sync_index_to_store()
+  Config.index.lock do
+      print "Synchronizing index with remote store..."
+      Config.index.flush
+      index_file = File.open(Config.index.file, "r")
+
+      entity_opts = {
+        context: [],
+        name: "_index",
+        is_context: false
+      }
+      index_entity = Entity::Entity.new(entity_opts, index_file)
+      index_entity.persist
+      puts "done."
+  end
+
+    Config.index
+  end
   class Config
 
     @store = nil

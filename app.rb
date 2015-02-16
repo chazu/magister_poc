@@ -9,15 +9,14 @@ require 'daybreak'
 
 MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
 
-puts "Connecting to service..."
+print "Connecting to remote store..."
 credentials = Aws::Credentials.new('AKIAIRG5ZJMOR42FQF5Q', 'JLp6XjIzw9dYCEosgB5zWYlX1mhTnfzLbaj7/CoC')
 
 $s3_client = Aws::S3::Client.new region: 'us-east-1', credentials: credentials
 $store = Aws::S3::Bucket.new MAGISTER_BUCKET_NAME, client: $s3_client
 
-# s3_client = s3.Client.new
-
-puts "Selecting relevant service bucket..."
+Magister::Config.set_store $store
+puts "done."
 
 def initialize_index
   puts "Initializing Index..."
@@ -25,42 +24,28 @@ def initialize_index
 end
 
 def find_or_create_index_for(store)
-  # TODO Daybreak DB isn't loaded properly when retrieved
-  # from AWS. Should be saved to disk as file, then loaded
   begin
     puts "Checking for index in remote store..."
     $s3_client.head_object(bucket: MAGISTER_BUCKET_NAME,
       key: "_index")
-    index = store.object("_index").get.body
+    index_file = File.open("_index", "w")
+    remote_index_content = store.object("_index").get.body
+    index_file.write(remote_index_content.gets)
+    index_file.close
+    Magister::Config.set_index Daybreak::DB.new "_index"
   rescue Aws::S3::Errors::NotFound => e
-    index = initialize_index
+    puts "Index not found in remote store. Initializing..."
+    Magister::Config.index = initialize_index
   end
-  index
 end
 
 index = find_or_create_index_for $store
 
-Magister::Config.set_store $store
-Magister::Config.set_index index
-
 scheduler = Rufus::Scheduler.new
 
-
 scheduler.every '10s' do
-  index.lock do
-    index_file = File.open(index.file, "r")
-
-  entity_opts = {
-    context: [],
-    name: "_index",
-    is_context: false
-  }
-
-  Magister::Entity::Entity.new(entity_opts, index_file).persist
-
-  end
+  Magister.sync_index_to_store
 end
-
 
 puts "==="
 
