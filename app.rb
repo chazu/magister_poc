@@ -67,9 +67,6 @@ module Magister
 
     post '*' do
       req = Request.new(request)
-      # TODO Handle multipart uploads here
-      #      Sometimes well want to save form data,
-      #      sometimes the request body
 
       if !req.is_context
         if request.params["_magister_file"]
