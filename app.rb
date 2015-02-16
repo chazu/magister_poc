@@ -58,25 +58,24 @@ module Magister
 
     post '*' do
       req = Request::Request.new(request)
-      puts request.body.gets # POST Params, request.params is url params
       # TODO Handle multipart uploads here
       #      Sometimes well want to save form data,
       #      sometimes the request body
 
       new_entity = Entity::Entity.new({
-          
+          context: req.context,
+          name: req.name,
+          is_context: req.is_context
         }, request.body)
       if new_entity.exists? # exists? means is already saved
         status 405 # Can't post it, its already there bro
       else
-
         if new_entity.persist
           status 200
         else
           status 500
         end
       end
-
       # TODO Persist _index on s3
     end
   end
