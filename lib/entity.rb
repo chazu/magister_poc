@@ -54,6 +54,7 @@ module Magister
 
     def content
       # TODO Handle root context case
+      # TODO rename this to data - content implies containment
       if index_key == "/"
         return "TODO"
       else
