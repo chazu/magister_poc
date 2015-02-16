@@ -3,8 +3,8 @@ require './lib/entity.rb'
 
 module Magister
 
-  def self.sync_index_to_store()
-  Config.index.lock do
+  def self.sync_index_to_store
+    Config.index.lock do
       print "Synchronizing index with remote store..."
       Config.index.flush
       index_file = File.open(Config.index.file, "r")
@@ -14,20 +14,24 @@ module Magister
         name: "_index",
         is_context: false
       }
-      index_entity = Entity::Entity.new(entity_opts, index_file)
+      index_entity = Entity.new(entity_opts, index_file)
       index_entity.persist
       puts "done."
-  end
-
+    end
     Config.index
   end
+
+  def self.synx_index_from_store
+    
+  end
+
   class Config
 
     @store = nil
     @index = nil
 
     def self.store= store
-        @store = store
+      @store = store
     end
 
     def self.index= index
@@ -54,7 +58,4 @@ module Magister
       self.instance.index = index
     end
   end
-
-  include Magister::Request
-  include Magister::Entity
 end

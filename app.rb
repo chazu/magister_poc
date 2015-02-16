@@ -43,9 +43,9 @@ index = find_or_create_index_for $store
 
 scheduler = Rufus::Scheduler.new
 
-scheduler.every '10s' do
-  Magister.sync_index_to_store
-end
+# scheduler.every '10s' do
+#   Magister.sync_index_to_store
+# end
 
 puts "==="
 
@@ -53,9 +53,9 @@ module Magister
   class MagisterApp < Sinatra::Application
 
     get '*' do
-      req = Request::Request.new(request)
+      req = Request.new(request)
       index_key = Entity.request_index_key(req)
-      ent = Entity::Entity.find(index_key)
+      ent = Entity.find(index_key)
 
       if ent
         status 200
@@ -66,16 +66,26 @@ module Magister
     end
 
     post '*' do
-      req = Request::Request.new(request)
+      req = Request.new(request)
       # TODO Handle multipart uploads here
       #      Sometimes well want to save form data,
       #      sometimes the request body
 
-      new_entity = Entity::Entity.new({
+      if !req.is_context
+        if request.params["_magister_file"]
+          content = request.params["_magister_file"][:tempfile].read
+        else
+          content = request.body.gets
+
+        end
+      else
+        content = nil
+      end
+      new_entity = Entity.new({
           context: req.context,
           name: req.name,
           is_context: req.is_context
-        }, request.body.gets)
+        }, content)
       if new_entity.exists? # exists? means is already saved
         status 405 # Can't post it, its already there bro
       else
@@ -85,7 +95,6 @@ module Magister
           status 500
         end
       end
-      # TODO Persist _index on s3
     end
   end
 end

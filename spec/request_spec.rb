@@ -1,4 +1,4 @@
-include Magister::Request
+include Magister
 
 describe Request do
 

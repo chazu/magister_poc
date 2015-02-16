@@ -1,5 +1,4 @@
-include Magister::Entity
-include Magister::Request
+include Magister
 
 def options_from_request(req)
     {
@@ -9,13 +8,13 @@ def options_from_request(req)
     }
 end
 
-describe Magister::Entity do
+describe Entity do
 
   context 'request_index_key' do
     it 'should return a slash for root entity' do
       request = double("request", path: "/", env: {})
       req = Request.new(request)
-      result = Magister::Entity.request_index_key(req)
+      result = Entity.request_index_key(req)
       expect(result).to eq("/");
     end
 
@@ -23,7 +22,7 @@ describe Magister::Entity do
       request = double("request", path: "/foo", env: {})
       req = Request.new(request)
 
-      result = Magister::Entity.request_index_key(req)
+      result = Entity.request_index_key(req)
       expect(result).to eq("/foo");
     end
 
@@ -32,7 +31,7 @@ describe Magister::Entity do
       req = Request.new(request)
 
       options = options_from_request(req)
-      result = Magister::Entity.request_index_key(req)
+      result = Entity.request_index_key(req)
       expect(result).to eq("/foo/bar/baz");
     end
 
@@ -41,7 +40,7 @@ describe Magister::Entity do
       req = Request.new(request)
 
       options = options_from_request(req)
-      result = Magister::Entity.request_index_key(req)
+      result = Entity.request_index_key(req)
       expect(result).to eq("/foo/bar/baz");
     end
   end
