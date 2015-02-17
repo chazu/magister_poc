@@ -57,7 +57,11 @@ module Magister
       if index_key == "/"
         @data # For a context, this is nothin...So how do we get the contents of a context?
       else
-        @data ||= Magister::Config.store.objects.find(index_key).content
+        if is_context?
+          nil # TODO We'll create a #contents method for contexts
+        else
+          @data ||= Magister::Config.store.objects.find(index_key).content
+        end
       end
     end
 

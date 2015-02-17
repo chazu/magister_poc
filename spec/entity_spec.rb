@@ -141,4 +141,14 @@ describe Entity do
       expect(entity.is_context?).to eq(true)
     end
   end
+
+  context 'data' do
+    it 'should return nil for a context' do
+      request = double("request", path: "/foo/bar/baz/", env: {})
+      req = Request.new(request)
+      options = options_from_request(req)
+      entity = Entity.new(options, nil)
+      expect(entity.data).to eq(nil)
+    end
+  end
 end
