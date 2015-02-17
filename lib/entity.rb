@@ -54,9 +54,8 @@ module Magister
     end
 
     def data
-      # TODO Handle root context case
       if index_key == "/"
-        return "TODO"
+        @data # For a context, this is nothin...So how do we get the contents of a context?
       else
         @data ||= Magister::Config.store.objects.find(index_key).content
       end
