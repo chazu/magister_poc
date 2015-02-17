@@ -10,8 +10,17 @@ module Magister
         (request.name ? request.name : "")
     end
 
+    def self.context_from_index_key(index_key)
+      split_path = index_key.split("/")
+      has_name = index_key[-1] != "/"
+
+      split_path.shift
+      if (has_name)
+        split_path.pop
+      end
+    end
+
     def self.find(index_key)
-      # TODO Should return an Entity instance
       if index_key == "/"
         Entity.new({ context: [],
             name: nil,
@@ -19,14 +28,20 @@ module Magister
           }, nil)
       else
         if Magister::Config.index.keys.include? index_key
-          
-          true # TODO Entity should take an index key for initialization
+          index_entry = Magister::Config.index[index_key]
+          is_context = index_entry[:_isContext]
+          # Note we're lazily fetching the content from the store by
+          # passing in nil here. Is this a good idea? Not so sure...
+          Entity.new({context: Entity.context_from_index_key(index_key),
+              name: Entity.name_from_index_key(index_key),
+              is_context: is_context}, nil)
         end
       end
     end
 
     def initialize(options, data)
-      # TODO content should be optional so we dont have to pass nil in
+      # TODO should Entity take an index key for initialization?
+      # TODO data should be optional so we dont have to pass nil in
       @context = options[:context]
       @name = options[:name]
       @is_context = options[:is_context]
@@ -65,6 +80,10 @@ module Magister
       end
     end
 
+    def contents
+      # TODO Spec this out before you write it, silly.
+    end
+
     def persist
       # Add a terminating slash if its a context - for Amazon S3
       s3_key = is_context? ? index_key + "/" : index_key
@@ -74,7 +93,8 @@ module Magister
       end
 
       Magister::Config.index[index_key] = {
-        metadata: {}
+          metadata: {},
+        _isContext: @is_context
       }
       store_object = Magister::Config.store.put_object({key: s3_key,
           body: @data
