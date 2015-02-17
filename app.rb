@@ -29,8 +29,8 @@ def find_or_create_index_for(store)
     $s3_client.head_object(bucket: MAGISTER_BUCKET_NAME,
       key: "_index")
     index_file = File.open("_index", "w")
-    remote_index_content = store.object("_index").get.body
-    index_file.write(remote_index_content.gets)
+    remote_index_data = store.object("_index").get.body
+    index_file.write(remote_index_data.gets)
     index_file.close
     Magister::Config.set_index Daybreak::DB.new "_index"
   rescue Aws::S3::Errors::NotFound => e
@@ -59,7 +59,7 @@ module Magister
 
       if ent
         status 200
-        body ent.content || ""
+        body ent.data || ""
       else
         status 404
       end
@@ -70,19 +70,19 @@ module Magister
 
       if !req.is_context
         if request.params["_magister_file"]
-          content = request.params["_magister_file"][:tempfile].read
+          data = request.params["_magister_file"][:tempfile].read
         else
-          content = request.body.gets
+          data = request.body.gets
 
         end
       else
-        content = nil
+        data = nil
       end
       new_entity = Entity.new({
           context: req.context,
           name: req.name,
           is_context: req.is_context
-        }, content)
+        }, data)
       if new_entity.exists? # exists? means is already saved
         status 405 # Can't post it, its already there bro
       else

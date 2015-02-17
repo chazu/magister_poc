@@ -19,17 +19,18 @@ module Magister
           }, nil)
       else
         if Magister::Config.index.keys.include? index_key
+          
           true # TODO Entity should take an index key for initialization
         end
       end
     end
 
-    def initialize(options, content)
+    def initialize(options, data)
       # TODO content should be optional so we dont have to pass nil in
       @context = options[:context]
       @name = options[:name]
       @is_context = options[:is_context]
-      @content = content ? content : nil
+      @data = data ? data : nil
     end
 
     def index_key
@@ -52,13 +53,12 @@ module Magister
       Magister::Config.index[index_key]["metadata"]
     end
 
-    def content
+    def data
       # TODO Handle root context case
-      # TODO rename this to data - content implies containment
       if index_key == "/"
         return "TODO"
       else
-        @content ||= Magister::Config.store.objects.find(index_key).content
+        @data ||= Magister::Config.store.objects.find(index_key).content
       end
     end
 
@@ -74,7 +74,7 @@ module Magister
         metadata: {}
       }
       store_object = Magister::Config.store.put_object({key: s3_key,
-          body: @content
+          body: @data
         })
     end
   end
