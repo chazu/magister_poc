@@ -84,8 +84,9 @@ module Magister
         if is_context?
           nil # TODO We'll create a #contents method for contexts
         else
-          binding.pry
-          @data ||= Magister::Config.store.store.objects.find(index_key)
+          s3_key = index_key
+          s3_key[0] = ""
+          @data ||= Magister::Config.store.store.object(s3_key).get.body
           # @data ||= Magister::Config.store.store.objects.find(index_key).content
         end
       end
@@ -102,6 +103,7 @@ module Magister
       if s3_key[0] == "/"
         s3_key[0] = '' # Remove initial slash, cos s3
       end
+
       Magister::Config.index[index_key] = {
           metadata: {},
         _isContext: @is_context
