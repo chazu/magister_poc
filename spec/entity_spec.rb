@@ -55,6 +55,23 @@ describe Entity do
     expect { entity = Entity.new(options, nil) }.not_to raise_error
   end
 
+  context 'name_from_index_key' do
+    it 'should work for contexts' do
+      key = "/this/is/a/context/"
+      expect(Entity.name_from_index_key key).to eq("context")
+    end
+
+    it 'should work for non-contexts' do
+      key = "/this/is/an/entity"
+      expect(Entity.name_from_index_key key).to eq("entity")
+    end
+
+    it 'should return an empty string for root' do
+      key = "/"
+      expect(Entity.name_from_index_key key).to eq("")
+    end
+  end
+
   context 'index key' do
     it 'should have an index_key method' do
       request = double("request", path: "/foo", env: {})
