@@ -2,6 +2,7 @@ require './lib/request.rb'
 require './lib/entity.rb'
 
 module Magister
+  MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
 
   def self.sync_index_to_store
     Config.index.lock do
@@ -23,6 +24,26 @@ module Magister
 
   def self.synx_index_from_store
     
+  end
+
+  class Index
+
+  end
+
+  class Store
+    attr_accessor :store
+
+    def initialize
+      print "Connecting to remote store..."
+      credentials = Aws::Credentials.new('AKIAIRG5ZJMOR42FQF5Q', 'JLp6XjIzw9dYCEosgB5zWYlX1mhTnfzLbaj7/CoC')
+
+      $s3_client = Aws::S3::Client.new region: 'us-east-1', credentials: credentials
+      @store = Aws::S3::Bucket.new MAGISTER_BUCKET_NAME, client: $s3_client
+    end
+
+    def retrieve_index_data
+      remote_index_data = @store.object("_index").get.body
+    end
   end
 
   class Config

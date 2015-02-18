@@ -18,6 +18,15 @@ module Magister
       if (has_name)
         split_path.pop
       end
+      split_path
+    end
+
+    def self.name_from_index_key(index_key)
+      if index_key == "/"
+        ""
+      else
+        index_key.split("/")[-1]
+      end
     end
 
     def self.find(index_key)
@@ -49,7 +58,7 @@ module Magister
     end
 
     def index_key
-      @index_key ||= (@context ? "/" : "") +
+      (@context ? "/" : "") +
         @context.join("/") + 
         (@name && @context.any? ? "/" : "") + 
         (@name ? @name : "")
@@ -75,7 +84,9 @@ module Magister
         if is_context?
           nil # TODO We'll create a #contents method for contexts
         else
-          @data ||= Magister::Config.store.objects.find(index_key).content
+          binding.pry
+          @data ||= Magister::Config.store.store.objects.find(index_key)
+          # @data ||= Magister::Config.store.store.objects.find(index_key).content
         end
       end
     end
@@ -91,12 +102,11 @@ module Magister
       if s3_key[0] == "/"
         s3_key[0] = '' # Remove initial slash, cos s3
       end
-
       Magister::Config.index[index_key] = {
           metadata: {},
         _isContext: @is_context
       }
-      store_object = Magister::Config.store.put_object({key: s3_key,
+      store_object = Magister::Config.store.store.put_object({key: s3_key,
           body: @data
         })
     end

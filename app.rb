@@ -7,16 +7,8 @@ require 'pry'
 require 'aws-sdk'
 require 'daybreak'
 
-MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
 
-print "Connecting to remote store..."
-credentials = Aws::Credentials.new('AKIAIRG5ZJMOR42FQF5Q', 'JLp6XjIzw9dYCEosgB5zWYlX1mhTnfzLbaj7/CoC')
-
-$s3_client = Aws::S3::Client.new region: 'us-east-1', credentials: credentials
-$store = Aws::S3::Bucket.new MAGISTER_BUCKET_NAME, client: $s3_client
-
-Magister::Config.set_store $store
-puts "done."
+Magister::Config.set_store Magister::Store.new
 
 def initialize_index
   puts "Initializing Index..."
@@ -25,11 +17,14 @@ end
 
 def find_or_create_index_for(store)
   begin
-    puts "Checking for index in remote store..."
-    $s3_client.head_object(bucket: MAGISTER_BUCKET_NAME,
+    $s3_client.head_object(bucket: Magister::MAGISTER_BUCKET_NAME,
       key: "_index")
+
+    puts "Checking for index in remote store..."
     index_file = File.open("_index", "w")
-    remote_index_data = store.object("_index").get.body
+
+    remote_index_data = Magister::Config.store.retrieve_index_data
+    #remote_index_data = Magister::Config.store.store.object("_index").get.body
     index_file.write(remote_index_data.gets)
     index_file.close
     Magister::Config.set_index Daybreak::DB.new "_index"
@@ -43,9 +38,9 @@ index = find_or_create_index_for $store
 
 scheduler = Rufus::Scheduler.new
 
-# scheduler.every '10s' do
-#   Magister.sync_index_to_store
-# end
+scheduler.every '120s' do
+  Magister.sync_index_to_store
+end
 
 puts "==="
 
