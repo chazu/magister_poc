@@ -9,5 +9,5 @@ ENV['RACK_ENV'] = 'test'
 include Rack::Test::Methods
 
 def app
-  Magister::MagisterApp
+  Magister::App
 end

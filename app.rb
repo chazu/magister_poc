@@ -50,7 +50,7 @@ scheduler = Rufus::Scheduler.new
 puts "==="
 
 module Magister
-  class MagisterApp < Sinatra::Application
+  class App < Sinatra::Application
 
     get '*' do
       req = Request.new(request)

@@ -1,3 +1,3 @@
 require './app'
 
-run Magister::MagisterApp
+run Magister::App
