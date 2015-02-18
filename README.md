@@ -1,8 +1,17 @@
 # TODO
 
+* Recursively create contexts when persisting an entity
+* Error out if asked to create a context with a name thats already taken by a file
 * Establish interface for storage adapter
-* Create 'find' method for Entity, for use in get handler
+* Implement logical deletion
 
+## TODO Less important
+
+* What is metadata going to look like?
+
+# DONE
+* Move Store and Index classes into their own damn files
+* Create 'find' method for Entity, for use in get handler
 
 # HTTP Calls
 

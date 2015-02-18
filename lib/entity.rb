@@ -99,7 +99,6 @@ module Magister
     def persist
       # Add a terminating slash if its a context - for Amazon S3
       s3_key = is_context? ? index_key + "/" : index_key
-
       if s3_key[0] == "/"
         s3_key[0] = '' # Remove initial slash, cos s3
       end
