@@ -86,7 +86,7 @@ module Magister
         else
           s3_key = index_key
           s3_key[0] = ""
-          @data ||= Magister::Config.store.store.object(s3_key).get.body
+          @data ||= Magister::Config.store.get(s3_key)
           # @data ||= Magister::Config.store.store.objects.find(index_key).content
         end
       end
@@ -108,9 +108,8 @@ module Magister
           metadata: {},
         _isContext: @is_context
       }
-      store_object = Magister::Config.store.store.put_object({key: s3_key,
-          body: @data
-        })
+      store_object = Magister::Config.store.put(s3_key,
+          @data)
     end
   end
 end

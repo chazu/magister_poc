@@ -44,6 +44,17 @@ module Magister
     def retrieve_index_data
       remote_index_data = @store.object("_index").get.body
     end
+
+    def get(key)
+      @store.object(key).get.body
+    end
+
+    def put(key, data)
+      @store.put_object({
+          key: key,
+          body: data
+        })
+    end
   end
 
   class Config
