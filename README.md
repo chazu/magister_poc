@@ -1,5 +1,8 @@
 # TODO
-
+* Move index functionality into index class
+* Write context_exists method on index
+* write highest_extant_context_for_key
+* write contexts_to_create_for_request helper
 * Recursively create contexts when persisting an entity
 * Error out if asked to create a context with a name thats already taken by a file
 * Establish interface for storage adapter
