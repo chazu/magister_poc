@@ -48,9 +48,8 @@ module Magister
       end
     end
 
-    def initialize(options, data)
+    def initialize(options, data=nil)
       # TODO should Entity take an index key for initialization?
-      # TODO data should be optional so we dont have to pass nil in
       @context = options[:context]
       @name = options[:name]
       @is_context = options[:is_context]

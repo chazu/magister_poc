@@ -68,11 +68,13 @@ module Magister
           data = request.params["_magister_file"][:tempfile].read
         else
           data = request.body.gets
-
         end
       else
         data = nil
       end
+
+      # Ensure context exists (or can be created)
+      #Magister::Index.context_exists(
       new_entity = Entity.new({
           context: req.context,
           name: req.name,
