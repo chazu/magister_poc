@@ -10,6 +10,21 @@ module Magister
     # index keys describing the root node all the way down to the
     # final context or entity
     def expand_index_key index_key
+      split_key = index_key.split("/")
+      split_key
+      injected = split_key.inject([]) do |memo, component|
+        last_one = memo.last
+        val = component == "" ? "/" : component
+        if !last_one
+          memo << val
+        else
+          memo << last_one + val + "/"
+        end
+      end
+      if index_key[-1] != "/" # If the last bit is NOT a context
+        injected[-1][-1] = "" # Remove the slash
+      end
+      injected
     end
   end
 end

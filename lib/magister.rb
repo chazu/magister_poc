@@ -1,3 +1,4 @@
+require './lib/helpers.rb'
 require './lib/request.rb'
 require './lib/entity.rb'
 require './lib/store.rb'
