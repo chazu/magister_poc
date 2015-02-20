@@ -4,37 +4,10 @@ require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
 
-require 'aws-sdk'
-require 'daybreak'
 
-
-Magister::Config.set_store Magister::Store.new
-
-def initialize_index
-  puts "Initializing Index..."
-  Daybreak::DB.new "_index"
-end
-
-def find_or_create_index_for(store)
-  begin
-    $s3_client.head_object(bucket: Magister::MAGISTER_BUCKET_NAME,
-      key: "_index")
-
-    puts "Checking for index in remote store..."
-    index_file = File.open("_index", "w")
-
-    remote_index_data = Magister::Config.store.retrieve_index_data
-    #remote_index_data = Magister::Config.store.store.object("_index").get.body
-    index_file.write(remote_index_data.gets)
-    index_file.close
-    Magister::Config.set_index Daybreak::DB.new "_index"
-  rescue Aws::S3::Errors::NotFound => e
-    puts "Index not found in remote store. Initializing..."
-    Magister::Config.index = initialize_index
-  end
-end
-
-index = find_or_create_index_for $store
+store = Magister::Store.new
+Magister::Config.set_store store
+Magister::Config.set_index Magister::Index.new store
 
 scheduler = Rufus::Scheduler.new
 
