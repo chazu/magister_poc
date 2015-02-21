@@ -38,6 +38,18 @@ Extensibility and customization in Magister is achieved through the creation and
 
 ### Entity Conventions
 
+#### Index Keys
+
+Each entity in the store is identified by an ***index key*** - this is a string describing the position of the entity in the store. Index keys are roughly analogous to file paths in a normal filesystem. For example, the index_key "/personal/recipes/savory_pies/stargazy_pie" might indicate the location of a file containing my recipe for [Stargazy Pie](https://en.wikipedia.org/wiki/Stargazy_pie). Or it might not, it's a secret.
+
+Index keys always start with a slash ("/") and never end with a slash. By convention, entity names are written in snake_case.
+
+#### Entity Names
+
+Each entity has a name. In the above case of my Stargazy Pie recipe, the name of the entity is "stargazy_pie". The context which holds that entity also has a name: "savory_pies". Even the root context "/" has a name. Its name is "/".
+
+Although generally speaking users will want to choose meaningful names for their entities, it is possible to choose random or otherwise non-human-readable names for entities. For example, an entity can be created with a name corresponding to the SHA-1 hash of its contents, or with a name corresponding to a UUID chosen at random at the time of its creation.
+
 ### Transformer Syntax and Operation
 
 (insert stuff here about how transformers work).
