@@ -24,7 +24,6 @@ module Magister
       req = Request.new(request)
       index_key = Entity.request_index_key(req)
       ent = Entity.find(index_key)
-
       if ent
         status 200
         body ent.data || ""
@@ -56,7 +55,7 @@ module Magister
       if new_entity.exists? # exists? means is already saved
         status 405 # Can't post it, its already there bro
       else
-        if new_entity.persist
+        if new_entity.persist_recursively
           status 200
         else
           status 500

@@ -1,10 +1,19 @@
 require "./lib/helpers"
+include Magister::Helpers
 
 module Magister
   class Entity
     include Helpers
 
     attr_accessor :name, :context
+
+    def self.index_key_to_context_array(index_key)
+      # TODO Make it so that only index keys are passed around, none of this
+      # Context Array bullshit
+      split = index_key.split("/")
+      split.shift
+      split
+    end
 
     def self.request_index_key(request)
       (request.context ? "/" : "") +
@@ -39,7 +48,7 @@ module Magister
             is_context: true
           }, nil)
       else
-        if context_exists index_key
+        if entity_exists(index_key)
           index_entry = Magister::Config.index[index_key]
           is_context = index_entry[:_isContext]
           # Note we're lazily fetching the content from the store by
@@ -104,12 +113,46 @@ module Magister
     end
 
     def persist
+      # Add a terminating slash if its a context - for Amazon S3
+      print "Persisting index key " + index_key + " indexing..."
+      s3_key = is_context? ? index_key + "/" : index_key
+      if s3_key[0] == "/"
+        s3_key[0] = '' # Remove initial slash, cos s3
+      end
+
+      Magister::Config.index[index_key] = {
+          metadata: {},
+        _isContext: @is_context
+      }
+      print "adding to store...\n"
+      store_object = Magister::Config.store.put(s3_key,
+          @data)
+    end
+
+    def persist_recursively
+      puts "Recursively persisting index key: " + index_key
       # Find all the contexts between us and root
       contexts_to_ensure = expand_index_key(enclosing_context_index_key)
       contexts_to_create = contexts_to_ensure.reject do |key_for_context|
         context_exists key_for_context
       end
-      binding.pry
+
+      # Create any enclosing contexts which do not exist
+      contexts_to_create.each do |context|
+        if context != "/" # Root exists already, yo
+
+          split_context = context.split("/")
+          split_context.shift #Remove empty quote from root slash
+          name = split_context.pop # Beware, I'm mutating split_context here!
+
+          enclosing_context = "/" + split_context.join("/")
+          the_new_context = Entity.new({context: Entity.index_key_to_context_array(enclosing_context),
+              name: name,
+              is_context: true})
+          the_new_context.persist
+        end
+      end
+
       # Add a terminating slash if its a context - for Amazon S3
       s3_key = is_context? ? index_key + "/" : index_key
       if s3_key[0] == "/"

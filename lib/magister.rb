@@ -8,10 +8,11 @@ module Magister
   MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
 
   def self.sync_index_to_store
+    Config.index.flush
     Config.index.lock do
       print "Synchronizing index with remote store..."
       Config.index.flush
-      index_file = File.open(Config.index.file, "r")
+      index_file = File.open("_index", "r")
 
       entity_opts = {
         context: [],

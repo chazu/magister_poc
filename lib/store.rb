@@ -11,7 +11,12 @@ module Magister
     end
 
     def retrieve_index_data
-      remote_index_data = @store.object("_index").get.body
+      begin
+        remote_index_data = @store.object("_index").get.body
+      rescue Aws::S3::Errors::NoSuchKey => e
+        nil
+      end
+      remote_index_data
     end
 
     def get(key)

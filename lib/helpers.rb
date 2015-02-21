@@ -2,8 +2,22 @@ module Magister
   module Helpers
 
     def context_exists index_key
-      Magister::Config.index.keys.include? index_key and
-        Magister::Config.index[index_key]["_isContext"]
+      if index_key == "/"
+        true
+      else
+        Magister::Config.index.keys.include? index_key and
+          Magister::Config.index[index_key] and
+          Magister::Config.index[index_key]["_isContext"]
+      end
+    end
+
+    def entity_exists index_key
+      if index_key == "/"
+        true
+      else
+        Magister::Config.index.keys.include? index_key and
+          Magister::Config.index[index_key]
+      end
     end
 
     def highest_extant_context_for_key index_key
