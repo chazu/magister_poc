@@ -1,9 +1,24 @@
 module Magister
   module Helpers
+
     def context_exists index_key
+      Magister::Config.index.keys.include? index_key and
+        Magister::Config.index[index_key]["_isContext"]
     end
 
     def highest_extant_context_for_key index_key
+      # TODO Avoid looping for the root context? Its not THAT expensive is it?
+      expanded_keys = expand_index_key index_key
+
+      exists = true
+      val = nil
+      expanded_keys.each do |key|
+        if !context_exists key
+          break
+        end
+        val = key
+      end
+      val
     end
 
     # Takes an index key and returns an array of

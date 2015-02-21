@@ -1,5 +1,8 @@
+require "./lib/helpers"
+
 module Magister
   class Entity
+    include Helpers
 
     attr_accessor :name, :context
 
@@ -36,7 +39,7 @@ module Magister
             is_context: true
           }, nil)
       else
-        if Magister::Config.index.keys.include? index_key
+        if context_exists index_key
           index_entry = Magister::Config.index[index_key]
           is_context = index_entry[:_isContext]
           # Note we're lazily fetching the content from the store by

@@ -1,4 +1,4 @@
-include Helpers
+include Magister::Helpers
 
 describe Helpers do
 
@@ -29,4 +29,24 @@ describe Helpers do
         ])
     end
   end
+
+  context "context_exists" do
+    let(:index_double) { double("index", keys: ["/", "/foo", "/foo/bar/"]) }
+
+    before do
+      Magister::Config.set_index index_double
+    end
+
+    it 'should return true if context is in index' do
+      expect(index_double).to receive(:keys).and_return(["/", "/foo", "/foo/bar"])
+      expect(index_double).to receive(:[]).with("/foo").and_return({"_isContext" => true})
+      expect(context_exists("/foo")).to eq(true)
+    end
+
+    it 'should return false if context is not in index' do
+      expect(index_double).to receive(:keys).and_return(["/", "/foo", "/foo/bar"])
+      expect(context_exists("/blarg")).to eq(false)
+    end
+  end
+
 end
