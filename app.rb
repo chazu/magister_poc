@@ -46,8 +46,8 @@ module Magister
         data = nil
       end
 
-      # Ensure context exists (or can be created)
-      #Magister::Index.context_exists(
+      # Ensure context(s) exist (or can be created)
+      
       new_entity = Entity.new({
           context: req.context,
           name: req.name,

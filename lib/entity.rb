@@ -66,6 +66,11 @@ module Magister
         (@name ? @name : "")
     end
 
+    def enclosing_context_index_key
+      # TODO Spec this
+      "/" + @context.join("/")
+    end
+
     def exists?
       (index_key == "/") ? true : Magister::Config.index.keys.include?(index_key)
     end
@@ -99,6 +104,12 @@ module Magister
     end
 
     def persist
+      # Find all the contexts between us and root
+      contexts_to_ensure = expand_index_key(enclosing_context_index_key)
+      contexts_to_create = contexts_to_ensure.reject do |key_for_context|
+        context_exists key_for_context
+      end
+      binding.pry
       # Add a terminating slash if its a context - for Amazon S3
       s3_key = is_context? ? index_key + "/" : index_key
       if s3_key[0] == "/"

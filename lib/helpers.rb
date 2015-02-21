@@ -29,17 +29,22 @@ module Magister
       split_key
       injected = split_key.inject([]) do |memo, component|
         last_one = memo.last
-        val = component == "" ? "/" : component
+        val = (component == "" ? "/" : component)
         if !last_one
           memo << val
         else
           memo << last_one + val + "/"
         end
       end
-      if index_key[-1] != "/" # If the last bit is NOT a context
-        injected[-1][-1] = "" # Remove the slash
+
+      # TODO This is hinky as fuck, plz fix
+      trimmed = injected.map do |x|
+        if not x == "/"
+          x[-1] = ""
+        end
+        x
       end
-      injected
+      trimmed
     end
   end
 end

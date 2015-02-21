@@ -1,5 +1,5 @@
 # TODO
-* Write context_exists method on index
+
 * write highest_extant_context_for_key
 * write contexts_to_create_for_request helper
 * Recursively create contexts when persisting an entity
@@ -12,6 +12,7 @@
 * What is metadata going to look like?
 
 # DONE
+* Write context_exists method on index (helper, actually)
 * Move index functionality into index class
 * Move Store and Index classes into their own damn files
 * Create 'find' method for Entity, for use in get handler
