@@ -1,5 +1,4 @@
 require 'forwardable'
-
 require 'aws-sdk'
 require 'daybreak'
 
@@ -16,10 +15,9 @@ module Magister
     def_delegator :@index, :keys, :keys
     def_delegator :@index, :lock, :lock
     def_delegator :@index, :flush, :flush
+
     def initialize(store)
       begin
-        # Magister::Config.store.head_object(bucket: Magister::MAGISTER_BUCKET_NAME,
-        #   key: "_index")
         puts "Checking for index in remote store..."
 
         index_file = File.open("_index", "w")
@@ -29,11 +27,11 @@ module Magister
           index_file.close
         end
       rescue Aws::S3::Errors::NotFound => e
-        puts "Index not found in remote store. Initializing..."
+        puts "Index not found in remote store. Will initialize a new index."
       end
       @index = open_index_file_for_reading
     end
-    
+
     def open_index_file_for_reading
       puts "Initializing Index..."
       Daybreak::DB.new "_index"

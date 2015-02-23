@@ -1,8 +1,11 @@
-require './lib/helpers.rb'
-require './lib/request.rb'
-require './lib/entity.rb'
-require './lib/store.rb'
-require './lib/index.rb'
+require './lib/helpers'
+require './lib/request'
+require './lib/entity'
+require './lib/store'
+require './lib/index'
+require './lib/adapters/base'
+require './lib/adapters/s3_adapter'
+
 
 module Magister
   MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
