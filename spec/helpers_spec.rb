@@ -39,7 +39,7 @@ describe Helpers do
 
     it 'should return true if context is in index' do
       expect(index_double).to receive(:keys).and_return(["/", "/foo", "/foo/bar"])
-      expect(index_double).to receive(:[]).with("/foo").and_return({"_isContext" => true})
+      expect(index_double).to receive(:[]).twice.with("/foo").and_return({"_isContext" => true})
       expect(context_exists("/foo")).to eq(true)
     end
 
