@@ -10,5 +10,7 @@ gem 'pry'
 gem 'shotgun'
 gem 'rufus-scheduler'
 
+gem 'heist'
+
 gem 'aws-sdk', '~> 2'
 gem 'daybreak'

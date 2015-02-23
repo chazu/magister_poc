@@ -14,6 +14,9 @@ GEM
     coderay (1.1.0)
     daybreak (0.3.0)
     diff-lcs (1.2.5)
+    heist (0.3.3)
+      oyster (>= 0.9)
+      treetop (>= 1.2)
     jmespath (1.0.2)
       multi_json (~> 1.0)
     json_expressions (0.8.3)
@@ -22,6 +25,8 @@ GEM
     multi_xml (0.5.5)
     nyan-cat-formatter (0.11)
       rspec (>= 2.99, >= 2.14.2, < 4)
+    oyster (0.9.5)
+    polyglot (0.3.5)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -55,6 +60,8 @@ GEM
     slop (3.6.0)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    treetop (1.5.3)
+      polyglot (~> 0.3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
@@ -64,6 +71,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2)
   daybreak
+  heist
   json_expressions
   nyan-cat-formatter
   pry
