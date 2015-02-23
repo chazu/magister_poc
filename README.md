@@ -1,6 +1,4 @@
 # TODO
-
-* Establish interface for storage adapter
 * Implement logical deletion
 * Refactor, testing backfill
 * Start thinking about transformers
@@ -13,6 +11,7 @@
 * What is metadata going to look like?
 
 # DONE
+* Establish interface for storage adapter
 * write contexts_to_create_for_request helper
 * Recursively create contexts when persisting an entity
 * Write context_exists method on index (helper, actually)
