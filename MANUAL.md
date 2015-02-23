@@ -30,11 +30,11 @@ Good conventions are those which:
 
 ### Entities, Contexts and Transformers
 
-Magister organizes all data in the form of a tree, much like a conventional filesystem. Every node in this tree is known as an ***entity***. Those entities which contain other entities (roughly analogous to directories in a filesystem) are called **contexts**. All of the data stored by one's own Magister installation is referred to as the **store**.
+Magister organizes all data in the form of a tree, much like a conventional filesystem. Every node in this tree is known as an **entity**. Those entities which contain other entities (roughly analogous to directories in a filesystem) are called **contexts**. All of the data stored by one's own Magister installation is referred to as the **store**.
 
-Interactions with Magister are carried out primarily via a RESTful HTTP API. This API consists of operations on Entity resources.
+Interactions with Magister are carried out primarily via a RESTful HTTP API. This API consists solely of operations on Entity resources.
 
-Extensibility and customization in Magister is achieved through the creation and configuration of ***transformers***. A transformer is an entity or set of entities which contain logic for processing API requests as well as any data required for operation. Transformers can do anything from serving a static website to visualizing geo-tagged data or displaying a collection of recipes.
+Extensibility and customization in Magister is achieved through the creation and configuration of **transformers**. A transformer is an entity or set of entities which contain logic for processing API requests as well as any data required for operation. Transformers can do anything from serving a static website to visualizing geo-tagged data or displaying a collection of recipes.
 
 ### Entity Conventions
 
