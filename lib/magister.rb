@@ -6,6 +6,7 @@ require './lib/index'
 require './lib/adapters/base'
 require './lib/adapters/s3_adapter'
 require './lib/transformer'
+require './lib/transformer_registry'
 
 module Magister
   MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
