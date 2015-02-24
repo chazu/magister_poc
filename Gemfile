@@ -12,5 +12,7 @@ gem 'rufus-scheduler'
 
 gem 'heist'
 
+gem 'thor'
+
 gem 'aws-sdk', '~> 2'
 gem 'daybreak'
