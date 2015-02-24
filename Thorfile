@@ -11,22 +11,8 @@ class Mag < Thor
 
   desc "fuck thor", "fuck you"
   def serverUrl
-    "http://localhost:9292/"
+    "http://localhost:9292"
   end
-
-  desc "fuck thor", "fuck u 2"
-  def make_context(index_key)
-    RestClient.post(serverUrl + index_key, "magister-is-context" => true)
-  end
-
-  desc "fuck thor", "fuck u 3"
-  def upload_file(index_key, file_path)
-    RestClient.post(serverUrl + index_key, "_magister_file" => File.new(file_path, "r"))
-  end
-
-
-  @host = 'localhost'
-  @port = 9292
 
   desc "say_hi", "Say hello"
   def say_hi
@@ -47,14 +33,12 @@ class Mag < Thor
     end
     # Iterate over res and push the files/contexts to the store
     res.each do |file_hash|
-
       stat = File.stat file_hash[:path]
       begin
         if stat.ftype == "directory"
-          make_context(file_hash[:index_key])
+          RestClient.post(serverUrl + file_hash[:index_key], "magister-is-context" => true)
         else
-          data = File.read(file_hash[:path])
-          upload_file(file_hash[:index_key],data)
+          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r"))
         end
       rescue Exception => e
         puts e
