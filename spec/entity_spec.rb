@@ -10,6 +10,13 @@ end
 
 describe Entity do
 
+  it 'should take a hash of options for initialization' do
+    request = double("request", path: "/foo", env: {})
+    req = Request.new(request)
+    options = options_from_request(req)
+    expect { entity = Entity.new(options, nil) }.not_to raise_error
+  end
+
   context 'request_index_key' do
     it 'should return a slash for root entity' do
       request = double("request", path: "/", env: {})
@@ -43,16 +50,6 @@ describe Entity do
       result = Entity.request_index_key(req)
       expect(result).to eq("/foo/bar/baz");
     end
-  end
-end
-
-describe Entity do
-
-  it 'should take a hash of options for initialization' do
-    request = double("request", path: "/foo", env: {})
-    req = Request.new(request)
-    options = options_from_request(req)
-    expect { entity = Entity.new(options, nil) }.not_to raise_error
   end
 
   context 'name_from_index_key' do
