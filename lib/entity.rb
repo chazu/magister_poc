@@ -109,7 +109,15 @@ module Magister
     end
 
     def contents
-      # TODO Spec this out before you write it, silly.
+      #^(\/[a-zA-Z\/\_\-]+)
+      index_regexp = Regexp.new(/^(?<key>\/[a-zA-Z\/\_\-]+)\//)
+      res = Magister::Config.index.keys.select do |this_key|
+        results = index_regexp.match(this_key)
+        results && results["key"] == index_key
+      end
+      res.map do |x|
+        {"name" => x}
+      end
     end
 
     def persist

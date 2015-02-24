@@ -165,4 +165,15 @@ describe Entity do
       expect(entity.data).to eq(nil)
     end
   end
+
+  context 'contents' do
+    it 'should return the files and contexts inside the entity' do
+      request = double("request", path: "/lets", env: {})
+      req = Request.new(request)
+      options = options_from_request(req)
+      entity = Entity.new(options, nil)
+
+      expect(entity.contents).to eq([{"name" =>"/lets/make"}])
+    end
+  end
 end
