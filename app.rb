@@ -34,7 +34,11 @@ module Magister
 
       if !req.is_context
         if request.params["_magister_file"]
-          data = request.params["_magister_file"][:tempfile].read
+          if request.params["_magister_file"][:tempfile]
+            data = request.params["_magister_file"][:tempfile].read
+          else
+            data = request.parans["_magister_file"]
+          end
         else
           data = request.body.gets
         end
