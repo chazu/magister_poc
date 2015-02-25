@@ -3,11 +3,13 @@ require './lib/request'
 require './lib/entity'
 require './lib/store'
 require './lib/index'
+require './lib/config'
 require './lib/adapters/base'
 require './lib/adapters/s3_adapter'
 require './lib/transformer'
 require './lib/transformer_registry'
 
+# require './lib/shutdown'
 module Magister
   MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
 
@@ -28,38 +30,5 @@ module Magister
       puts "done."
     end
     Config.index
-  end
-
-  class Config
-    @store = nil
-    @index = nil
-
-    def self.store= store
-      @store = store
-    end
-
-    def self.index= index
-      @index = index
-    end
-
-    def self.store
-      @store
-    end
-
-    def self.index
-      @index
-    end
-
-    def self.instance
-      self
-    end
-
-    def self.set_store store
-      self.instance.store = store
-    end
-
-    def self.set_index index
-      self.instance.index = index
-    end
   end
 end
