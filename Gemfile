@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'grape'
 gem 'rspec'
 gem 'rspec-mocks'
 gem 'nyan-cat-formatter'
