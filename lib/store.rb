@@ -10,7 +10,7 @@ module Magister
     def_delegator :@adapter, :store, :store
 
     def initialize
-      print "Connecting to remote store..."
+      puts "Connecting to remote store..."
       @adapter = Magister::StorageAdapters::S3Adapter.new
     end
   end
