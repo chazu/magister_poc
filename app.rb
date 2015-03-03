@@ -61,5 +61,13 @@ module Magister
         end
       end
     end
+
+    put '*' do
+      # TODO Implement overwriting entity
+    end
+
+    delete '*' do
+      # TODO Implement logical deletion here
+    end
   end
 end
