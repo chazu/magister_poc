@@ -52,13 +52,18 @@ Although generally speaking users will want to choose meaningful names for their
 
 ### Transformer Syntax and Operation
 
-(insert stuff here about how transformers work).
+*****!!!PLEASE NOTE!!!***** that as Magister is currently pre-alpha software, there may (and in all likeliness *will be*) some significant changes to the transformer API. At present, transformers leverage an embedded Scheme interpreter.
 
-See (another page) for more information about conventions for writing and configuring transformers.
+A transformer within a Magister store takes the form of a context containing at least one file with the name 'transform'. Additional files can be added to the context, such as static assets or libraries. 
+
+#### Transformer Terminology
 
  - Domain - When speaking about a transformer, the section of the store's tree which the transformer has access to. By default it is the context of the transformer and all nodes below it in the tree.
  - Environment - When speaking about a transformer, a variable injected into the transformer's operation which provides access to external resources including the data store, any file caches and other utilities of use.
  - Antecedent - When speaking about a transformer, the computational resources which can be leveraged by the transformer which reside higher up in the store's tree. Defaults to all contexts which precede the context of the transformer being executed. This is in contrast to the domain, which contains all data below the context of the transformer.
+
+#### Transformer Syntax
+
 
 ### The Scheduler
 

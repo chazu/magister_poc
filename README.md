@@ -1,16 +1,26 @@
 # TODO
-* Implement logical deletion
+
+* Spec and Implement logical deletion (DELETE verb handler)
+* Spec and Implement PATCH, PUT, OPTIONS, HEAD?
+* Spec and Implement Transformer Register init
+* Spec and Implement GET context contents
+* Create scheduler entity
 * Refactor, testing backfill
-* Start thinking about transformers
-* Better logging
+* Update MANUAL
+* How do we get the contents of a context?
+* Set up transformer registry
 
 ## TODO Less important
 * Can you get _index entity? What about _config entity?
 * PUT and PATCH, HEAD and OPTIONS
 * Error out if asked to create a context with a name thats already taken by a file
 * What is metadata going to look like?
+* Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Create super-basic Entity#contents
+* Write thor task to upload transformers
+* Set up basic transformer class with Heist
 * Establish interface for storage adapter
 * write contexts_to_create_for_request helper
 * Recursively create contexts when persisting an entity
