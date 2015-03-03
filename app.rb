@@ -8,6 +8,9 @@ store = Magister::Store.new
 Magister::Config.set_store store
 Magister::Config.set_index Magister::Index.new store
 
+# Initialize Transformer Registry
+#Magister::TransformerRegistry.instance.initialize_register
+
 scheduler = Rufus::Scheduler.new
 scheduler.every '120s' do
   Magister.sync_index_to_store
@@ -67,7 +70,15 @@ module Magister
     end
 
     delete '*' do
-      # TODO Implement logical deletion here
+      req = Request.new(request)
+      index_key = Entity.request_index_key(req)
+      ent = Entity.find(index_key)
+      if ent
+        status 200
+        # TODO logical deletion here
+      else
+        status 404
+      end
     end
   end
 end

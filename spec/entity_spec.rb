@@ -1,11 +1,11 @@
 include Magister
 
 def options_from_request(req)
-    {
-      context: req.context,
-      name: req.name,
-      is_context: req.is_context
-    }
+  {
+    context: req.context,
+    name: req.name,
+    is_context: req.is_context
+  }
 end
 
 describe Entity do
@@ -163,6 +163,43 @@ describe Entity do
       options = options_from_request(req)
       entity = Entity.new(options, nil)
       expect(entity.data).to eq(nil)
+    end
+  end
+
+  context 'metadata' do
+    it 'should return a hash' do
+      request = double("request", path: "/long/time/ago", env: {})
+      req = Request.new(request)
+      options = options_from_request(req)
+      entity = Entity.new(options, nil)
+      entity.persist_recursively
+
+      expect(entity.metadata).to be_instance_of(Hash)
+    end
+  end
+
+  context 'deleted?' do
+
+    it 'should return false if no meta key in index' do
+      request = double("request", path: "/long/time/ago", env: {})
+      req = Request.new(request)
+      options = options_from_request(req)
+      entity = Entity.new(options, nil)
+      entity.persist_recursively
+
+      expect(entity.deleted?).to eq(false)
+    end
+
+    it 'should return true if meta key in index' do
+      request = double("request", path: "/long/time/ago", env: {})
+      req = Request.new(request)
+      options = options_from_request(req)
+      entity = Entity.new(options, nil)
+      entity.persist_recursively
+
+      Magister::Config.index[entity.index_key][:_deleted] = true
+
+      expect(entity.deleted?).to eq(true)
     end
   end
 

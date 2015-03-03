@@ -84,13 +84,16 @@ module Magister
       (index_key == "/") ? true : Magister::Config.index.keys.include?(index_key)
     end
 
+    def deleted?
+      Magister::Config.index[index_key][:_deleted] || false;
+    end
+
     def is_context?
       @is_context
     end
 
     def metadata
-      # TODO Spec out this method
-      Magister::Config.index[index_key]["metadata"]
+      Magister::Config.index[index_key][:metadata]
     end
 
     def data
