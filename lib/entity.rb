@@ -92,8 +92,16 @@ module Magister
       @is_context
     end
 
+    def index_entry
+      Magister::Config.index[index_key]
+    end
+
+    def delete
+      index_entry[:_deleted] = true
+    end
+
     def metadata
-      Magister::Config.index[index_key][:metadata]
+      index_entry[:metadata]
     end
 
     def data
