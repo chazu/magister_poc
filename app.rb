@@ -4,6 +4,8 @@ require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
 
+Magister::Config.set_env "./config/dev.json"
+
 store = Magister::Store.new
 Magister::Config.set_store store
 Magister::Config.set_index Magister::Index.new store

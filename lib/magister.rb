@@ -11,8 +11,6 @@ require './lib/transformer_registry'
 
 # require './lib/shutdown'
 module Magister
-  MAGISTER_BUCKET_NAME = "plaidpotion-magister-sinatra"
-
   def self.sync_index_to_store
     Config.index.flush
     Config.index.lock do

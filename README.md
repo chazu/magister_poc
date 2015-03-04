@@ -1,5 +1,5 @@
 # TODO
-
+* Set up test env and harness for specs
 * Spec and Implement logical deletion (DELETE verb handler)
 * Spec and Implement PATCH, PUT, OPTIONS, HEAD?
 * Spec and Implement Transformer Register init
@@ -18,6 +18,7 @@
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Load config from file - multiple envs
 * Create super-basic Entity#contents
 * Write thor task to upload transformers
 * Set up basic transformer class with Heist

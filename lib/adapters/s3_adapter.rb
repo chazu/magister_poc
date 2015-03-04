@@ -7,10 +7,12 @@ module Magister
       attr_accessor :store
 
       def initialize
-        credentials = Aws::Credentials.new('AKIAIRG5ZJMOR42FQF5Q', 'JLp6XjIzw9dYCEosgB5zWYlX1mhTnfzLbaj7/CoC')
 
-        $s3_client = Aws::S3::Client.new region: 'us-east-1', credentials: credentials
-        @store = Aws::S3::Bucket.new MAGISTER_BUCKET_NAME, client: $s3_client
+        credentials = Aws::Credentials.new(Magister::Config.options["storeConfig"]["token"],
+          Magister::Config.options["storeConfig"]["secret"])
+
+        $s3_client = Aws::S3::Client.new region: Magister::Config.options["storeConfig"]["region"], credentials: credentials
+        @store = Aws::S3::Bucket.new Magister::Config.options["storeConfig"]["bucketName"], client: $s3_client
       end
 
       def retrieve_index_data
