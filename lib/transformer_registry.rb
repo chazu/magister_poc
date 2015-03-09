@@ -17,6 +17,7 @@ module Magister
 
     def self.transformer_index_keys_in_contexts context_array
       context_array.map { |x| Entity.find(x).contents }
+        .flatten
     end
 
     def self.initialize_register
