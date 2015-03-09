@@ -204,6 +204,12 @@ describe Entity do
   end
 
   context 'contents' do
+
+    create_test_entity({:context => ["lets", "make"],
+        :name => 'transform',
+        :is_context => false,
+        :data => "hello"})
+
     it 'should return the files and contexts inside the entity' do
       request = double("request", path: "/lets", env: {})
       req = Request.new(request)
