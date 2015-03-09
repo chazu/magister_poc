@@ -1,0 +1,11 @@
+{
+  "env": "test",
+  "indexFileKey": "_index",
+  "storeConfig": {
+    "adapter": "s3",
+    "bucketName": "plaidpotion-magister-sinatra-test",
+    "token": "AKIAIRG5ZJMOR42FQF5Q",
+    "secret": "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",
+    "region": "us-east-1"
+  }
+}

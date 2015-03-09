@@ -4,7 +4,11 @@ require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
 
-Magister::Config.set_env "./config/dev.json"
+if ENV['MAGISTER_ENV'] == "dev"
+  Magister::Config.set_env "./config/dev.json"
+else
+  Magister::Config.set_env "./config/test.json"
+end
 
 store = Magister::Store.new
 Magister::Config.set_store store
