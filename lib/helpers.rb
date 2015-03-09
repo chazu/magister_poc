@@ -2,12 +2,13 @@ module Magister
   module Helpers
 
     def context_exists index_key
+
       if index_key == "/"
         true
       else
         Magister::Config.index.keys.include? index_key and
           Magister::Config.index[index_key] and
-          Magister::Config.index[index_key]["_isContext"]
+          Magister::Config.index[index_key][:_isContext]
       end
     end
 
