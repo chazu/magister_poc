@@ -26,7 +26,7 @@ module Magister
     end
 
     def evaluate
-      @runtime.eval(@source)
+      @runtime.send(:eval, @source)
     end
   end
 end

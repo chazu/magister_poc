@@ -2,11 +2,6 @@ require 'singleton'
 
 module Magister
   class TransformerRegistry
-    include Singleton
-
-    def initialize
-      @register = {}
-    end
 
     def self.transformer_context_index_keys
       transformer_index_keys = Magister::Config.index.keys
@@ -21,18 +16,24 @@ module Magister
     end
 
     def self.initialize_register
+      puts "initializing register"
+      @@register = {}
       transformers = self.transformer_context_index_keys.map do |transformers_context_index_key| 
-        Entity.find(transformers_context_index_key).contents
+        Entity.find(transformers_context_index_key)
       end
 
-      transformers.each do |transformer_context|
+      transformers.each do |transformer_entity|
+        puts "Initializing transformer: " + transformer_entity.index_key
+        if @@register.keys.include?(transformer_entity.index_key)
+          @@register[transformer_entity.index_key] << transformer_entity
+        else
+          @@register[transformer_entity.index_key] = [Transformer.new(transformer_entity)]
+        end
       end
-        # Get the 'transform' entity from the context
     end
 
-    def [] index_key
-      @register[index_key]
+    def self.[] index_key
+      @@register[index_key]
     end
-
   end
 end

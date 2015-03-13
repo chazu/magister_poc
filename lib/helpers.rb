@@ -42,6 +42,7 @@ module Magister
     def expand_index_key index_key
       split_key = index_key.split("/")
       split_key
+
       injected = split_key.inject([]) do |memo, component|
         last_one = memo.last
         val = (component == "" ? "/" : component)

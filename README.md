@@ -1,8 +1,7 @@
 # TODO
-* Set up test env and harness for specs
+* Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
 * Spec and Implement PATCH, PUT, OPTIONS, HEAD?
-* Spec and Implement Transformer Register init
 * Spec and Implement GET context contents
 * Create scheduler entity
 * Refactor, testing backfill
@@ -18,6 +17,7 @@
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Set up test env and harness for specs - clean DB between runs/specs
 * Load config from file - multiple envs
 * Create super-basic Entity#contents
 * Write thor task to upload transformers

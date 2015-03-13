@@ -15,13 +15,16 @@ Magister::Config.set_store store
 Magister::Config.set_index Magister::Index.new store
 
 # Initialize Transformer Registry
-#Magister::TransformerRegistry.instance.initialize_register
+Magister::TransformerRegistry.initialize_register
+
 
 scheduler = Rufus::Scheduler.new
 scheduler.every '120s' do
   Magister.sync_index_to_store
 end
 puts "==="
+
+
 
 module Magister
   class App < Sinatra::Application
