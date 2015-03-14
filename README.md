@@ -1,4 +1,6 @@
 # TODO
+* Make sure data is persisted when entity is persisted
+* Make sure data is retrieved via Entity::find
 * Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
 * Spec and Implement PATCH, PUT, OPTIONS, HEAD?
