@@ -38,7 +38,7 @@ class Mag < Thor
         if stat.ftype == "directory"
           RestClient.post(serverUrl + file_hash[:index_key], "magister-is-context" => true)
         else
-          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r"))
+          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").gets)
         end
       rescue Exception => e
         puts e
