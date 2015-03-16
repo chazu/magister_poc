@@ -5,10 +5,11 @@ module Magister
 
     attr_accessor :runtime #This is hacky. In here so's testing is easy but its horrible.
 
-    def initialize(transform_entity)
+    def initialize(transformer_entity)
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
-      @source = transform_entity.data
+      @entity = transformer_entity
+      @source = Entity.find(transformer_entity.index_key + "/transform").data.gets
 
       evaluate
 

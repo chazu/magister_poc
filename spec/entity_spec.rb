@@ -219,4 +219,15 @@ describe Entity do
       expect(entity.contents).to eq([{"name" =>"/lets/make"}])
     end
   end
+
+  context 'find' do
+    create_test_entity({:context => ["lets", "make", "happy"],
+        :name => 'times',
+        :is_context => false,
+        :data => "hello"})
+
+    it 'should return the data of the entity' do
+      expect(Entity.find("/lets/make/happy/times").data.gets).to eq("hello")
+    end
+  end
 end

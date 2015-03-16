@@ -27,7 +27,7 @@ class Mag < Thor
     Find.find(path) do |this_path|
       truncated_path = this_path.gsub(path, "") 
       that_path = destination_index_path + "/" + name
-      final_destination_index_key = that_path + (truncated_path.length ? "/" + truncated_path : "")
+      final_destination_index_key = that_path + (truncated_path.length ? "" + truncated_path : "")
       puts this_path + " => " + final_destination_index_key
       res << {index_key: final_destination_index_key, path: this_path}
     end

@@ -33,11 +33,15 @@ module Magister
     end
 
     context 'transformer_index_keys_in_contexts' do
+      it 'should take an array of Entity instances' do
+        # TODO Write this spec
+      end
+
       it 'should return all transformer contexts WITHIN the designated directories' do
 
         res = TransformerRegistry.transformer_context_index_keys
-        expect(TransformerRegistry.transformer_index_keys_in_contexts(res)).to include({"name" => "/this/isnt/good/for/me/_/transformers/hiya"})
-        expect(TransformerRegistry.transformer_index_keys_in_contexts(res)).to include({"name" => "/_/transformers/hello"})
+        expect(TransformerRegistry.transformer_index_keys_in_contexts(res)).to include("/this/isnt/good/for/me/_/transformers/hiya")
+        expect(TransformerRegistry.transformer_index_keys_in_contexts(res)).to include("/_/transformers/hello")
       end
     end
   end
