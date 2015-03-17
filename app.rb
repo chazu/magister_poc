@@ -4,10 +4,13 @@ require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
 
-if ENV['MAGISTER_ENV'] == "dev"
-  Magister::Config.set_env "./config/dev.json"
-else
+
+if ENV['MAGISTER_ENV'] == "test"
+  puts "Setting ENV to TEST"
   Magister::Config.set_env "./config/test.json"
+else
+  puts "Setting ENV to DEV"
+  Magister::Config.set_env "./config/dev.json"
 end
 
 store = Magister::Store.new
@@ -19,12 +22,9 @@ Magister::TransformerRegistry.initialize_register
 
 
 scheduler = Rufus::Scheduler.new
-scheduler.every '120s' do
+scheduler.every '30s' do
   Magister.sync_index_to_store
 end
-puts "==="
-
-
 
 module Magister
   class App < Sinatra::Application
@@ -43,13 +43,12 @@ module Magister
 
     post '*' do
       req = Request.new(request)
-
       if !req.is_context
         if request.params["_magister_file"]
-          if request.params["_magister_file"][:tempfile]
+          if request.params["_magister_file"].class != String
             data = request.params["_magister_file"][:tempfile].read
           else
-            data = request.parans["_magister_file"]
+            data = request.params["_magister_file"]
           end
         else
           data = request.body.gets
