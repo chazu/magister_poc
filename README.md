@@ -1,6 +1,7 @@
 # TODO
-* Make sure data is persisted when entity is persisted
-* Make sure data is retrieved via Entity::find
+* Write in MANUAL - transformer syntax and loading process
+* Handle errors during transformer register initialization
+* Create pseudo-endpoint to see transformer registry
 * Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
 * Spec and Implement PATCH, PUT, OPTIONS, HEAD?
@@ -19,6 +20,8 @@
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Make sure data is persisted when entity is persisted
+* Make sure data is retrieved via Entity::find
 * Set up test env and harness for specs - clean DB between runs/specs
 * Load config from file - multiple envs
 * Create super-basic Entity#contents

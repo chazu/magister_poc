@@ -62,8 +62,21 @@ A transformer within a Magister store takes the form of a context containing at 
  - Environment - When speaking about a transformer, a variable injected into the transformer's operation which provides access to external resources including the data store, any file caches and other utilities of use.
  - Antecedent - When speaking about a transformer, the computational resources which can be leveraged by the transformer which reside higher up in the store's tree. Defaults to all contexts which precede the context of the transformer being executed. This is in contrast to the domain, which contains all data below the context of the transformer.
 
+#### The Transformer Register
+
+When the magister server is started, the store is searched for transformers. For any context in the store, it is assumed that anything stored under the "_" context is a transformer. Therefore at startup Magister will assume that entities with index keys such as "/\_/transformers" or "/my/favorite/things/\_/transformers" contain only transformers.
+
+As mentioned earlier, each transformer within one of these contexts will itself be a context, containing at least one other entity, named _transform_, which is where execution of the transformer itself begins. Other entities may include assets for use by the transformer, metadata about the transformer (in an entity named 'meta') or dependency information (in an entity named 'deps') to be used when loading or installing the transformer.
+
 #### Transformer Syntax
 
+	(meta
+		(:transforms :png,
+					  :jpg,
+					  :gif)
+		(:returns :text))
+
+##### Dependencies
 
 ### The Scheduler
 
