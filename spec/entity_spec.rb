@@ -211,12 +211,12 @@ describe Entity do
         :data => "hello"})
 
     it 'should return the files and contexts inside the entity' do
-      request = double("request", path: "/lets", env: {})
+      request = double("request", path: "/lets/make", env: {})
       req = Request.new(request)
       options = options_from_request(req)
       entity = Entity.new(options, nil)
 
-      expect(entity.contents).to eq([{"name" =>"/lets/make"}])
+      expect(entity.contents).to eq(["/lets/make/transform", "/lets/make/happy"])
     end
   end
 

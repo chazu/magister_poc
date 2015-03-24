@@ -23,6 +23,8 @@ module Magister
     end
 
     def self.context_from_index_key(index_key)
+      # TODO Whats the difference between this and self.index_key_to_context_array?
+      # Does this give us the context of self?
       split_path = index_key.split("/")
       has_name = index_key[-1] != "/"
 
@@ -47,6 +49,11 @@ module Magister
             name: nil,
             is_context: true
           }, nil)
+      elsif index_key == "/_registry"
+        Entity.new({ context: [],
+            name: "_registry",
+            is_context: false,
+            }, Magister::TransformerRegistry.to_json)
       else
         if entity_exists(index_key)
           index_entry = Magister::Config.index[index_key]
@@ -120,15 +127,12 @@ module Magister
     end
 
     def contents
-      #^(\/[a-zA-Z\/\_\-]+)
-      index_regexp = Regexp.new(/^(?<key>\/[a-zA-Z\/\_\-]+)\//)
-      res = Magister::Config.index.keys.select do |this_key|
-        results = index_regexp.match(this_key)
-        results && results["key"] == index_key
-      end
-      res.map do |x|
-        {"name" => x}
-      end
+      # Return a list of all the index keys inside this context
+      # TODO This is horrrrrrribly inefficient and expensive and stupid
+      Magister::Config.index.keys.map { |x| Entity.find(x) }
+        .select { |x| x.context ==  Entity.index_key_to_context_array(index_key) }
+        .tap { |x| binding.pry }
+        .map { |x| x.index_key }
     end
 
     def persist
