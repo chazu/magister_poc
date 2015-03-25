@@ -16,6 +16,7 @@ module Magister
       # as index keys. 
       index_key_array
         .map { |x| Entity.find(x) }
+        .tap { |x| binding.pry }
         .map { |x| x.contents }
         .flatten
     end
@@ -28,11 +29,8 @@ module Magister
       puts "initializing register"
       @@registry = {}
 
-      transformer_contexts = self.transformer_context_index_keys.map do |transformers_context_index_key| 
-        Entity.find(transformers_context_index_key)
-      end
-
-      transformer_index_keys = self.index_keys_in_contexts(transformer_contexts)
+      transformer_contexts_index_keys = self.transformer_context_index_keys # Index keys for contexts containing transformers
+      transformer_index_keys = self.index_keys_in_contexts(transformer_contexts_index_keys) # Should be all the transformers' index keys
       transformer_entities = transformer_index_keys.map { |x| Entity.find(x) }
 
       transformer_entities.each do |transformer_entity|
