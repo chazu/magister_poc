@@ -216,7 +216,7 @@ describe Entity do
       options = options_from_request(req)
       entity = Entity.new(options, nil)
 
-      expect(entity.contents).to eq(["/lets/make/transform", "/lets/make/happy"])
+      expect(entity.contents).to eq(["/lets/make/transform", "/lets/make/happy", "/lets/make/an"])
     end
   end
 

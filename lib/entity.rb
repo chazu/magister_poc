@@ -131,7 +131,6 @@ module Magister
       # TODO This is horrrrrrribly inefficient and expensive and stupid
       Magister::Config.index.keys.map { |x| Entity.find(x) }
         .select { |x| x.context ==  Entity.index_key_to_context_array(index_key) }
-        .tap { |x| binding.pry }
         .map { |x| x.index_key }
     end
 

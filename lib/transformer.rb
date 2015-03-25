@@ -17,6 +17,14 @@ module Magister
       # @deps = @runtime.eval("(deps)")
     end
 
+    def name
+      @entity.name
+    end
+
+    def context
+      @entity.context
+    end
+
     def inject_request request
       @runtime.exec [:define, :request, request]
     end
