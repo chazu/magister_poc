@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
+gem 'sinatra', '1.4.6'
 gem 'grape'
 gem 'rspec'
 gem 'rspec-mocks'
