@@ -16,7 +16,6 @@ module Magister
       # as index keys. 
       index_key_array
         .map { |x| Entity.find(x) }
-        .tap { |x| binding.pry }
         .map { |x| x.contents }
         .flatten
     end

@@ -6,6 +6,12 @@ require './lib/index'
 require './lib/config'
 require './lib/adapters/base'
 require './lib/adapters/s3_adapter'
+require './lib/handlers/get'
+require './lib/handlers/post'
+require './lib/handlers/put'
+require './lib/handlers/delete'
+require './lib/handlers/patch'
+
 require './lib/transformer'
 require './lib/transformer_registry'
 
