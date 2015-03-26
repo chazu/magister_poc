@@ -14,16 +14,12 @@ class Mag < Thor
     "http://localhost:9292"
   end
 
-  desc "say_hi", "Say hello"
-  def say_hi
-    puts "Hello there :3"
-  end
-
   desc "transformer", "Upload a transformer to the root transformer folder"
   def transformer(path, name)
     destination_index_path = "/_/transformers"
     puts "Uploading transformer " + path + "as " + name
     res = []
+
     Find.find(path) do |this_path|
       truncated_path = this_path.gsub(path, "") 
       that_path = destination_index_path + "/" + name
@@ -31,6 +27,7 @@ class Mag < Thor
       puts this_path + " => " + final_destination_index_key
       res << {index_key: final_destination_index_key, path: this_path}
     end
+
     # Iterate over res and push the files/contexts to the store
     res.each do |file_hash|
       stat = File.stat file_hash[:path]
@@ -38,7 +35,7 @@ class Mag < Thor
         if stat.ftype == "directory"
           RestClient.post(serverUrl + file_hash[:index_key], "magister-is-context" => true)
         else
-          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").gets)
+          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").readlines.join)
         end
       rescue Exception => e
         puts e
