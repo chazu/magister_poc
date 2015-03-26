@@ -1,6 +1,8 @@
 # TODO
-* Write in MANUAL - transformer syntax and loading process
+* Extract each verb handler into its own file
+* Extract app into module in lib
 * Handle errors during transformer register initialization
+* Write in MANUAL - transformer syntax and loading process
 * Create pseudo-endpoint to see transformer registry
 * Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
