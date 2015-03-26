@@ -10,7 +10,5 @@ describe "POST Endpoint" do
 
       expect(last_response.status).to eq 200
     end
-
-
   end
 end

@@ -26,6 +26,8 @@ module Magister
 
     def self.initialize_register
       puts "initializing register"
+      begin
+
       @@registry = {}
 
       transformer_contexts_index_keys = self.transformer_context_index_keys # Index keys for contexts containing transformers
@@ -39,6 +41,12 @@ module Magister
         else
           @@registry[transformer_entity.index_key] = [Transformer.new(transformer_entity)]
         end
+      end
+
+      rescue Exception => e
+        puts "Exception while initializing Transformer Registry:"
+        puts e
+        puts "********** ************"
       end
     end
 
