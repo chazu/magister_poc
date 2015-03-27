@@ -1,0 +1,6 @@
+(meta
+ (:transforms :png,
+              :jpg,
+              :gif)
+ (:returns :text)
+ (:deps ()))
