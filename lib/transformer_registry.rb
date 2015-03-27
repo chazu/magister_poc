@@ -1,4 +1,5 @@
 require 'singleton'
+require 'json'
 
 module Magister
   class TransformerRegistry
@@ -55,12 +56,14 @@ module Magister
     end
 
     def self.to_json
-      # TODO Should the registry be a hash or an array? Hash seems...weird.
       mapped = @@registry.map do |key, value|
-        {"name" => transformer.name,
-        "context" => transformer.context}
+        sigh = {"context" => key,
+        "transformers" => []}
+        value.each do |transformer|
+          sigh["transformers"] << transformer.to_hash
+        end
+        sigh
       end
-
       mapped.to_json
     end
   end
