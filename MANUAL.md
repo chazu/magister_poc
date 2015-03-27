@@ -50,37 +50,62 @@ Each entity has a name. In the above case of my Stargazy Pie recipe, the name of
 
 Although generally speaking users will want to choose meaningful names for their entities, it is possible to choose random or otherwise non-human-readable names for entities. For example, an entity can be created with a name corresponding to the SHA-1 hash of its contents, or with a name corresponding to a UUID chosen at random at the time of its creation.
 
-### Transformer Syntax and Operation
 
-*****!!!PLEASE NOTE!!!***** that as Magister is currently pre-alpha software, there may (and in all likeliness *will be*) some significant changes to the transformer API. At present, transformers leverage an embedded Scheme interpreter.
+#### Special Entities
 
-A transformer within a Magister store takes the form of a context containing at least one file with the name 'transform'. Additional files can be added to the context, such as static assets or libraries. 
+##### _scheduler
 
-#### Transformer Terminology
+In order to facilitate automated activities such as the retrieval of data from the internet, Magister contains a special Entity - the scheduler - which regularly makes requests to other parts of the store. The job of the scheduler is basically to emit event triggers so that your RSS feeds are read regularly, or that your gmail inbox is synced with Magister.
+
+##### _registry
+TODO
+
+#### _log
+TODO
+
+#### _status
+TODO
+
+#### _recents
+TODO - Shows recent modifications to store
+
+
+## Transformers
+ TODO Write about how they're the heart of the system yadda yadda
+ 
+### Transformer Terminology
 
  - Domain - When speaking about a transformer, the section of the store's tree which the transformer has access to. By default it is the context of the transformer and all nodes below it in the tree.
  - Environment - When speaking about a transformer, a variable injected into the transformer's operation which provides access to external resources including the data store, any file caches and other utilities of use.
  - Antecedent - When speaking about a transformer, the computational resources which can be leveraged by the transformer which reside higher up in the store's tree. Defaults to all contexts which precede the context of the transformer being executed. This is in contrast to the domain, which contains all data below the context of the transformer.
+ - Transforms - TODO
+ - Returns - TODO
 
-#### The Transformer Register
+
+### The Transformer Register
 
 When the magister server is started, the store is searched for transformers. For any context in the store, it is assumed that anything stored under the "_" context is a transformer. Therefore at startup Magister will assume that entities with index keys such as "/\_/transformers" or "/my/favorite/things/\_/transformers" contain only transformers.
 
 As mentioned earlier, each transformer within one of these contexts will itself be a context, containing at least one other entity, named _transform_, which is where execution of the transformer itself begins. Other entities may include assets for use by the transformer, metadata about the transformer (in an entity named 'meta') or dependency information (in an entity named 'deps') to be used when loading or installing the transformer.
 
+### Transformer Syntax and Operation
+
+*****!!!PLEASE NOTE!!!***** that as Magister is currently pre-alpha software, there may (and in all likeliness *will be*) some significant changes to the transformer API. At present, transformers leverage an embedded Scheme interpreter.
+
+A transformer within a Magister store takes the form of a context containing at least one file with the name 'transform'. Additional files can be added to the context, such as static assets or libraries. The file name 'meta' is reserved for metadata about the transformer.
+
+
 #### Transformer Syntax
 
+##### Metadata file:
 	(meta
 		(:transforms :png,
 					  :jpg,
 					  :gif)
-		(:returns :text))
+		(:returns :text)
+		(:deps ()))
 
 ##### Dependencies
-
-### The Scheduler
-
-In order to facilitate automated activities such as the retrieval of data from the internet, Magister contains a special Entity - the scheduler - which regularly makes requests to other parts of the store. The job of the scheduler is basically to emit event triggers so that your RSS feeds are read regularly, or that your gmail inbox is synced with Magister.
 
 
 
