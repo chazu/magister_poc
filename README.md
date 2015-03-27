@@ -1,9 +1,7 @@
 # TODO
-* Extract each verb handler into its own file
+* Implement TransformerRegistry::transformer_for_request
+* Implement passthrough transformer
 * Extract app into module in lib
-* Handle errors during transformer register initialization
-* Write in MANUAL - transformer syntax and loading process
-* Create pseudo-endpoint to see transformer registry
 * Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
 * Spec and Implement PATCH, PUT, OPTIONS, HEAD?
@@ -22,6 +20,9 @@
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Create pseudo-endpoint to see transformer registry
+* Handle errors during transformer register initialization
+* Extract each verb handler into its own file
 * Make sure data is persisted when entity is persisted
 * Make sure data is retrieved via Entity::find
 * Set up test env and harness for specs - clean DB between runs/specs
