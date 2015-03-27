@@ -9,12 +9,16 @@ module Magister
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
       @entity = transformer_entity
-      @source = Entity.find(transformer_entity.index_key + "/transform").data.gets
+      @source = Entity.find(transformer_entity.index_key + "/transform").data.readlines.join
+      @meta = Entity.find(transformer_entity.index_key + "/meta").data.readlines.join
 
+      # Configure special forms
+      @runtime.define 'meta' do |transforms, returns, deps|
+        binding.pry
+      end
+
+      evaluate_meta
       evaluate
-
-      # Get dependency info from transformer
-      # @deps = @runtime.eval("(deps)")
     end
 
     def name
@@ -32,6 +36,18 @@ module Magister
     def inject_dependencies
       # TODO Grab contexts, other transformers, whatever,
       # and give our transformer handles to it
+    end
+
+    def to_hash
+      # TODO Need accepts and returns here
+      {
+        "name" => name
+      }
+    end
+
+    def evaluate_meta
+      @runtime.send(:eval, @meta)
+      # TODO Pull metadata out and save it as ivars
     end
 
     def evaluate
