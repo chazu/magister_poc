@@ -44,6 +44,8 @@ module Magister
     end
 
     def self.find(index_key)
+
+      # Handle special cases - root node, _registry, _scheduler, etc
       if index_key == "/"
         Entity.new({ context: [],
             name: nil,
