@@ -1,0 +1,12 @@
+* Transformer Registry
+** TODO More detailed error reporting on transformer load
+** TODO Implement TransformerRegistry::transformer_for_request
+** TODO Implement Passthrough transformer
+** TODO Implement default data transformer - return data as text
+** TODO Clean up thorfile - ditch thor for...custom script? sure...
+* Handlers
+** TODO Implement PUT
+** TODO Implement DELETE
+** TODO Implement PATCH
+* TODO Implement class for special entity (_index, _registry, etc)
+* TODO Attempt to write shutdown handler for sinatra...again.

@@ -1,3 +1,5 @@
+NOTE: Moving over to TODO.org for todos
+
 # TODO
 * Implement TransformerRegistry::transformer_for_request
 * Implement passthrough transformer
@@ -8,9 +10,8 @@
 * Spec and Implement GET context contents
 * Create scheduler entity
 * Refactor, testing backfill
-* Update MANUAL
 * How do we get the contents of a context?
-* Set up transformer registry
+
 
 ## TODO Less important
 * Can you get _index entity? What about _config entity?
@@ -20,6 +21,7 @@
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Set up transformer registry
 * Create pseudo-endpoint to see transformer registry
 * Handle errors during transformer register initialization
 * Extract each verb handler into its own file
