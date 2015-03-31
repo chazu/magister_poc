@@ -15,13 +15,13 @@ class Mag < Thor
   end
 
   desc "transformer", "Upload a transformer to the root transformer folder"
-  def transformer(path, name)
-    destination_index_path = "/_/transformers"
-    puts "Uploading transformer " + path + "as " + name
+  def transformer(filepath, name, destination)
+    destination_index_path = destination + "/_/transformers"
+    puts "Uploading transformer " + filepath + " as " + name + " to " + destination_index_path
     res = []
 
-    Find.find(path) do |this_path|
-      truncated_path = this_path.gsub(path, "") 
+    Find.find(filepath) do |this_path|
+      truncated_path = this_path.gsub(filepath, "") 
       that_path = destination_index_path + "/" + name
       final_destination_index_key = that_path + (truncated_path.length ? "" + truncated_path : "")
       puts this_path + " => " + final_destination_index_key
