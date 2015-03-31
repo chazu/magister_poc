@@ -19,6 +19,7 @@ require './lib/transformer_registry'
 module Magister
   def self.sync_index_to_store
     Config.index.flush
+
     Config.index.lock do
       print "Synchronizing index with remote store..."
       Config.index.flush

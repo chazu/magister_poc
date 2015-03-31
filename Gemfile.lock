@@ -24,6 +24,7 @@ GEM
     coderay (1.1.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    colorize (0.7.3)
     daybreak (0.3.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -110,6 +111,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk (~> 2)
+  colorize
   daybreak
   grape
   heist

@@ -1,6 +1,7 @@
 require 'singleton'
 require 'json'
 
+require 'colorize'
 module Magister
   class TransformerRegistry
 
@@ -27,7 +28,7 @@ module Magister
 
     def self.initialize_register
       puts "initializing register"
-      begin
+
 
       @@registry = {}
 
@@ -36,18 +37,19 @@ module Magister
       transformer_entities = transformer_index_keys.map { |x| Entity.find(x) }
 
       transformer_entities.each do |transformer_entity|
-        puts "Initializing transformer: " + transformer_entity.index_key
-        if @@registry.keys.include?(transformer_entity.index_key)
-          @@registry[transformer_entity.index_key] << transformer_entity
-        else
-          @@registry[transformer_entity.index_key] = [Transformer.new(transformer_entity)]
+        begin
+          puts "Initializing transformer: " + transformer_entity.index_key
+    
+          if @@registry.keys.include?(transformer_entity.index_key)
+            @@registry[transformer_entity.index_key] << transformer_entity
+          else
+            @@registry[transformer_entity.index_key] = [Transformer.new(transformer_entity)]
+          end
+        rescue Exception => e
+          puts "Exception while initializing Transformer Registry:"
+          puts e
+          puts "===".red + "WISE UP SUCKER!".blue + "===".red
         end
-      end
-
-      rescue Exception => e
-        puts "Exception while initializing Transformer Registry:"
-        puts e
-        puts "********** ************"
       end
     end
 
@@ -58,7 +60,7 @@ module Magister
     def self.to_json
       mapped = @@registry.map do |key, value|
         sigh = {"context" => key,
-        "transformers" => []}
+          "transformers" => []}
         value.each do |transformer|
           sigh["transformers"] << transformer.to_hash
         end

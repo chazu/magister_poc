@@ -23,7 +23,7 @@ module Magister
         index_file = File.open("_index", "w")
         remote_index_data = Magister::Config.store.retrieve_index_data
         if remote_index_data
-          index_file.write(remote_index_data.gets) # TODO Can we ditch the #gets?
+          index_file.write(remote_index_data.readlines.join) # TODO Can we ditch the #gets?
           index_file.close
         end
       rescue Aws::S3::Errors::NotFound => e

@@ -17,3 +17,5 @@ gem 'thor'
 
 gem 'aws-sdk', '~> 2'
 gem 'daybreak'
+
+gem 'colorize'
