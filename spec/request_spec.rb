@@ -1,7 +1,7 @@
 include Magister
 
 describe Request do
-
+  # TODO THIS is shit, fix it.
   it 'should have a path' do
     request = double("request", path: "/", env: {})
     mag_request = Request.new(request)

@@ -41,5 +41,8 @@ module Magister
         expect(TransformerRegistry.index_keys_in_contexts(res)).to include("/_/transformers/hello")
       end
     end
+
+    context 'transformer_for_request' do
+    end
   end
 end
