@@ -1,0 +1,4 @@
+(meta
+ '(:transforms :*)
+ '(:returns :text/json)
+ '(:deps ()))

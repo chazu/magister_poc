@@ -14,11 +14,10 @@ module Magister
 
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, deps|
-        binding.pry
       end
+      # TODO Define to-json special form
 
       evaluate_meta
-      evaluate
     end
 
     def name
@@ -51,6 +50,7 @@ module Magister
     end
 
     def evaluate
+      binding.pry
       @runtime.send(:eval, @source)
     end
   end

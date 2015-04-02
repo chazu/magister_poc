@@ -15,6 +15,10 @@ module Magister
       split
     end
 
+    def self.context_array_to_index_key(context_array)
+      "/" + context_array.join("/")
+    end
+
     def self.request_index_key(request)
       (request.context ? "/" : "") +
         request.context.join("/") +

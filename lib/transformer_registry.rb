@@ -5,6 +5,10 @@ require 'colorize'
 module Magister
   class TransformerRegistry
 
+    def self.transformer_for_request req
+      @@registry["/_/transformers"][0]
+    end
+
     def self.transformer_context_index_keys
       # Get all the index keys in the store which match the regex for transformer storage
       transformer_index_keys = Magister::Config.index.keys
@@ -40,10 +44,12 @@ module Magister
         begin
           puts "Initializing transformer: " + transformer_entity.index_key
     
-          if @@registry.keys.include?(transformer_entity.index_key)
-            @@registry[transformer_entity.index_key] << transformer_entity
+          index_key_for_transformers_home_context = Entity.context_array_to_index_key(transformer_entity.context)
+          if @@registry.keys.include?(index_key_for_transformers_home_context)
+
+            @@registry[index_key_for_transformers_home_context] << transformer_entity
           else
-            @@registry[transformer_entity.index_key] = [Transformer.new(transformer_entity)]
+            @@registry[index_key_for_transformers_home_context] = [Transformer.new(transformer_entity)]
           end
         rescue Exception => e
           puts "Exception while initializing Transformer Registry:"
