@@ -29,7 +29,7 @@ module Magister
     end
 
     def inject_request request
-      @runtime.exec [:define, :request, request]
+      @runtime.exec [:define, :request, request.as_hash]
     end
 
     def inject_dependencies
@@ -37,7 +37,7 @@ module Magister
       # and give our transformer handles to it
     end
 
-    def to_hash
+    def as_hash
       # TODO Need accepts and returns here
       {
         "name" => name

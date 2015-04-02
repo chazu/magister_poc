@@ -27,5 +27,12 @@ module Magister
 
       @context = split_path
     end
+    def as_hash
+      {
+        "name" => name,
+        "context" => Entity.context_array_to_index_key(context),
+        "is_context" => is_context
+      }
+    end
   end
 end
