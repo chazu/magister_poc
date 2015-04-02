@@ -3,7 +3,8 @@
 ** TODO Implement TransformerRegistry::transformer_for_request
 ** TODO Implement Passthrough transformer
 ** TODO Implement default data transformer - return data as text
-** TODO Clean up thorfile - ditch thor for...custom script? sure...
+** DONE Clean up thorfile - ditch thor for...custom script? sure...
+   CLOSED: [2015-04-01 Wed 23:55]
 * Handlers
 ** TODO Implement PUT
 ** TODO Implement DELETE
