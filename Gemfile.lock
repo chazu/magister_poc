@@ -1,3 +1,9 @@
+PATH
+  remote: ./ludi
+  specs:
+    ludi (0.0.1)
+      highline (= 1.7.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -44,6 +50,7 @@ GEM
     heist (0.3.3)
       oyster (>= 0.9)
       treetop (>= 1.2)
+    highline (1.7.1)
     i18n (0.7.0)
     ice_nine (0.11.1)
     jmespath (1.0.2)
@@ -116,6 +123,7 @@ DEPENDENCIES
   grape
   heist
   json_expressions
+  ludi!
   nyan-cat-formatter
   pry
   rack-test

@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+require 'find'
+require 'highline/import'
+require 'rest-client'
+
+module Ludi
+
+  def self.transformer
+    local_copy = ask("Relative path to transformer directory?")
+    remote_context = ask("Destination path on server? Blank for root...")
+    remote_name = ask("Name for remote copy of transformer?")
+
+    # Remove terminating "/" from destination if present
+    if remote_context[-1] == "/"
+      remote_context[-1] = ""
+    end
+
+    host = 'http://localhost:9292'
+    
+    destination_index_path = parse_remote_context remote_context
+
+    puts "Uploading transformer " + filepath + " as " + name + " to " + destination_index_path
+    res = []
+
+    # Find all files in the transformer
+    Find.find(filepath) do |this_path|
+      truncated_path = this_path.gsub(filepath, "") 
+      that_path = destination_index_path + "/" + name
+      final_destination_index_key = that_path + (truncated_path.length ? "" + truncated_path : "")
+      puts this_path + " => " + final_destination_index_key
+      res << {index_key: final_destination_index_key, path: this_path}
+    end
+
+    # Iterate over res and push the files/contexts to the store
+    res.each do |file_hash|
+      stat = File.stat file_hash[:path]
+      begin
+        if stat.ftype == "directory"
+          RestClient.post(serverUrl + file_hash[:index_key], "magister-is-context" => true)
+        else
+          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").readlines.join)
+        end
+      rescue Exception => e
+        puts e
+      end
+    end
+  end
+
+  def self.start
+    transformer
+  end
+
+  # HELPERS YO
+
+  def parse_remote_context context_string
+    context_string == "" ? "/_/transformers" :
+      "/_/transformers/" + context_string
+  end
+end
+
+Ludi.start
