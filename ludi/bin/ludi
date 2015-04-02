@@ -19,13 +19,13 @@ module Ludi
     
     destination_index_path = parse_remote_context remote_context
 
-    puts "Uploading transformer " + filepath + " as " + name + " to " + destination_index_path
+    puts "Uploading transformer " + local_copy + " as " + remote_name + " to " + destination_index_path
     res = []
 
     # Find all files in the transformer
-    Find.find(filepath) do |this_path|
-      truncated_path = this_path.gsub(filepath, "") 
-      that_path = destination_index_path + "/" + name
+    Find.find(local_copy) do |this_path|
+      truncated_path = this_path.gsub(local_copy, "") 
+      that_path = destination_index_path + "/" + remote_name
       final_destination_index_key = that_path + (truncated_path.length ? "" + truncated_path : "")
       puts this_path + " => " + final_destination_index_key
       res << {index_key: final_destination_index_key, path: this_path}
@@ -36,9 +36,9 @@ module Ludi
       stat = File.stat file_hash[:path]
       begin
         if stat.ftype == "directory"
-          RestClient.post(serverUrl + file_hash[:index_key], "magister-is-context" => true)
+          RestClient.post(host + file_hash[:index_key], "magister-is-context" => true)
         else
-          RestClient.post(serverUrl + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").readlines.join)
+          RestClient.post(host + file_hash[:index_key], "_magister_file" => File.new(file_hash[:path], "r").readlines.join)
         end
       rescue Exception => e
         puts e
@@ -52,7 +52,7 @@ module Ludi
 
   # HELPERS YO
 
-  def parse_remote_context context_string
+  def self.parse_remote_context context_string
     context_string == "" ? "/_/transformers" :
       "/_/transformers/" + context_string
   end
