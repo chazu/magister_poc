@@ -26,12 +26,17 @@ module Magister
       end
 
       @context = split_path
+      @headers = http_request.env.select do |key, value|
+        !/^rack/.match(key) && !/^sinatra/.match(key) && !/^async/.match(key)
+      end # TODO Not really just headers, th entire rack env...
+      @params
     end
     def as_hash
       {
         "name" => name,
         "context" => Entity.context_array_to_index_key(context),
-        "is_context" => is_context
+        "is_context" => is_context,
+        "headers" => @headers
       }
     end
   end

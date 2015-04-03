@@ -18,7 +18,6 @@ module Magister
       end
 
       @runtime.define 'json-encode' do |expression|
-        binding.pry
         expression.to_json
       end
 
@@ -55,7 +54,6 @@ module Magister
     end
 
     def evaluate
-      binding.pry
       @runtime.send(:eval, @source)
     end
   end
