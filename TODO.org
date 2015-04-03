@@ -1,13 +1,17 @@
 * Transformer Registry
+** TODO Add all relevant details (headers, form stuff) to Magister::Request
 ** TODO More detailed error reporting on transformer load
 ** TODO Implement TransformerRegistry::transformer_for_request
-** TODO Implement Passthrough transformer
+** STARTED Implement Passthrough transformer
 ** TODO Implement default data transformer - return data as text
-** DONE Clean up thorfile - ditch thor for...custom script? sure...
-   CLOSED: [2015-04-01 Wed 23:55]
 * Handlers
 ** TODO Implement PUT
 ** TODO Implement DELETE
 ** TODO Implement PATCH
 * TODO Implement class for special entity (_index, _registry, etc)
 * TODO Attempt to write shutdown handler for sinatra...again.
+
+
+* FINISHED
+** DONE Clean up thorfile - ditch thor for...custom script? sure...
+   CLOSED: [2015-04-01 Wed 23:55]
