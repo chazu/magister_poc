@@ -1,3 +1,4 @@
+require 'json'
 require 'heist'
 
 module Magister
@@ -15,7 +16,11 @@ module Magister
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, deps|
       end
-      # TODO Define to-json special form
+
+      @runtime.define 'json-encode' do |expression|
+        binding.pry
+        expression.to_json
+      end
 
       evaluate_meta
     end
