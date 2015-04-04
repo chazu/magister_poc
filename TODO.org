@@ -1,8 +1,8 @@
 * Transformer Registry
-** TODO Add all relevant details (headers, form stuff) to Magister::Request
+** STARTED Implement TransformerRegistry::transformer_for_request
+** STARTED Add all relevant details (headers, form stuff) to Magister::Request
 ** TODO More detailed error reporting on transformer load
 ** TODO Implement TransformerRegistry::transformer_for_request
-** STARTED Implement Passthrough transformer
 ** TODO Implement default data transformer - return data as text
 * Handlers
 ** TODO Implement PUT
@@ -15,3 +15,5 @@
 * FINISHED
 ** DONE Clean up thorfile - ditch thor for...custom script? sure...
    CLOSED: [2015-04-01 Wed 23:55]
+** DONE Implement Passthrough transformer
+   CLOSED: [2015-04-04 Sat 16:58]

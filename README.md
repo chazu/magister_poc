@@ -1,7 +1,6 @@
 NOTE: Moving over to TODO.org for todos
 
 # TODO
-* Implement TransformerRegistry::transformer_for_request
 * Implement passthrough transformer
 * Extract app into module in lib
 * Spec and Implement Transformer Register init
