@@ -68,7 +68,7 @@ module Magister
         sigh = {"context" => key,
           "transformers" => []}
         value.each do |transformer|
-          sigh["transformers"] << transformer.to_hash
+          sigh["transformers"] << transformer.as_hash
         end
         sigh
       end
