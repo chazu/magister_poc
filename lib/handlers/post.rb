@@ -25,15 +25,15 @@ module Magister
               name: req.name,
               is_context: req.is_context
             }, data)
-          if new_entity.exists? # exists? means is already saved
-            status 405 # Can't post it, its already there bro
-          else
+          # if new_entity.exists? # exists? means is already saved
+          #   status 405 # Can't post it, its already there bro
+          # else
             if new_entity.persist_recursively
               status 200
             else
               status 500
             end
-          end
+          # end
         end
       end
     end
