@@ -126,6 +126,7 @@ module Magister
         else
           s3_key = index_key
           s3_key[0] = ""
+
           @data ||= Magister::Config.store.get(s3_key)
           # @data ||= Magister::Config.store.store.objects.find(index_key).content
         end
@@ -193,6 +194,15 @@ module Magister
       }
       store_object = Magister::Config.store.put(s3_key,
           @data)
+    end
+
+    def as_hash
+      {
+        "name" => name,
+        "context" => Entity.context_array_to_index_key(context),
+        "data" => is_context? ? nil : data,
+        "contents" => is_context? ? contents : nil
+      }
     end
   end
 end
