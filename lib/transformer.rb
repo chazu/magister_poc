@@ -10,15 +10,21 @@ module Magister
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
       @entity = transformer_entity
+      @domain = Entity.context_array_to_index_key(transformer_entity.context)
       @source = Entity.find(transformer_entity.index_key + "/transform").data.readlines.join
       @meta = Entity.find(transformer_entity.index_key + "/meta").data.readlines.join
 
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, deps|
+        @transformers, @returns, @deps = transforms, returns, deps
       end
 
       @runtime.define 'json-encode' do |expression|
         expression.to_json
+      end
+
+      @runtime.define 'find-entity' do |expression|
+        Entity.find(expression["context"] +  expression["name"]).as_hash
       end
 
       evaluate_meta
@@ -44,16 +50,21 @@ module Magister
     def as_hash
       # TODO Need accepts and returns here
       {
-        "name" => name
+        "name" => name,
+        "transforms" => @transforms,
+        "returns" => @returns,
+        "deps" => @deps,
+        "domain" => @domain
       }
     end
 
     def evaluate_meta
       @runtime.send(:eval, @meta)
-      # TODO Pull metadata out and save it as ivars
+
     end
 
     def evaluate
+      binding.pry
       @runtime.send(:eval, @source)
     end
   end
