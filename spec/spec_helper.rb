@@ -8,14 +8,19 @@ end
 
 Magister::Config.store.store.clear!
 
+def runtime_eval expression
+  @@runtime.eval(expression)
+end
+
 def create_test_entity options
   ent = Magister::Entity.new({:context => options[:context],
-    :name => options[:name],
-    :is_context => options[:is_context]},
-    options[:data])
+                              :name => options[:name],
+                              :is_context => options[:is_context]},
+                             options[:data])
   ent.persist_recursively
 end
 
+# Take an array of length 2 and return a Heist Cons for it. Also takes hashes as the cdr of the cons
 def make_cons_pair pair
   Heist::Runtime::Cons.new pair[0], pair[1]
 end

@@ -40,6 +40,10 @@ module Magister
     # Takes an index key and returns an array of
     # index keys describing the root node all the way down to the
     # final context or entity
+
+    def list_append(runtime, cons, new)
+    end
+    
     def expand_index_key index_key
       split_key = index_key.split("/")
       split_key
@@ -71,11 +75,13 @@ module Magister
       when obj.class == Array
         obj.map { |element| to_sexp(element) }
       when obj.class == Hash
-        
-        obj.inject([]) do |memo, (key, value)|
+        mutant = obj.inject([]) do |memo, (key, value)|
           cons = Heist::Runtime::Cons.new(key, to_sexp(value))
           memo << cons
         end
+        Heist::Runtime::Cons.construct(mutant)
+      when obj.class == Heist::Runtime::Cons
+        Heist::Runtime::Cons obj.car, to_sexp(obj.cdr)
       else
         obj
       end
