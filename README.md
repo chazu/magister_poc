@@ -1,7 +1,8 @@
 NOTE: Moving over to TODO.org for todos
 
 # TODO
-* Implement passthrough transformer
+* Write mixin (?) or utils for converting ruby objects into scheme datatypes and vice versa (hint: use alists)
+* Set up noob-friendly aliases for using a-lists.
 * Extract app into module in lib
 * Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
@@ -20,6 +21,7 @@ NOTE: Moving over to TODO.org for todos
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
+* Implement passthrough transformer
 * Set up transformer registry
 * Create pseudo-endpoint to see transformer registry
 * Handle errors during transformer register initialization
