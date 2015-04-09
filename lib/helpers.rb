@@ -2,7 +2,6 @@ module Magister
   module Helpers
 
     def context_exists index_key
-
       if index_key == "/"
         true
       else
@@ -61,6 +60,22 @@ module Magister
         x
       end
       trimmed
+    end
+
+    # Take a data structure (string, array or hash) and make it recursively into a Heist
+    # data structure (string, list or alist)
+    def to_sexp obj
+      if obj.class == Array
+        obj.map { |element| to_sexp(element) }
+      else
+        obj
+      end
+    end
+
+    # Take a heist data structure (string, list or alist) and recursively make it into a ruby
+    # data structure (string, array or hash)
+    def from_sexp obj
+      # TODO
     end
   end
 end

@@ -1,9 +1,8 @@
 include Magister::Helpers
 
 describe Helpers do
-
+  
   context 'expand_index_key' do
-
     it 'should expand into a list of index keys' do
       index_key_to_expand = "/this/is/my/index/key"
 
@@ -45,6 +44,18 @@ describe Helpers do
     it 'should return false if context is not in index' do
       expect(context_exists("/blarg")).to eq(false)
     end
+  end
+
+  context 'to_sexp' do
+    it "should convert an array into a format consumable by heist" do
+      test_array = ["hello", "heist"]
+      converted = to_sexp(test_array)
+      inject_data converted, "test_array"
+      
+      expect(converted).to eq(["hello", "heist"])
+      expect(@@runtime.send(:eval, "(assert-equal test_array '(\"hello\" \"heist\")) ")).to eq(true)
+    end
+
   end
 
 end

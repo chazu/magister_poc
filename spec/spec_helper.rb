@@ -16,6 +16,15 @@ def create_test_entity options
   ent.persist_recursively
 end
 
+@@runtime = Heist::Runtime.new
+@@runtime.define 'assert-equal' do |expected, actual|
+  actual.should == expected
+end
+
+def inject_data data, name
+  @@runtime.send(:exec, [:define, name.to_sym, [ :quote, data ] ])
+end
+
 require 'rack/test'
 require 'rspec'
 require 'pry'
