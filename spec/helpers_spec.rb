@@ -56,6 +56,39 @@ describe Helpers do
       expect(@@runtime.send(:eval, "(assert-equal test_array '(\"hello\" \"heist\")) ")).to eq(true)
     end
 
+    it "should convert a nested array" do
+      test_array = ["hello", ["there", "heist"]]
+      converted = to_sexp(test_array)
+      inject_data converted, "test_array"
+      
+      expect(converted).to eq(["hello", ["there", "heist"]])
+      expect(@@runtime.send(:eval, "(assert-equal test_array '(\"hello\" (\"there\" \"heist\"))) ")).to eq(true)
+    end
+
+    it "should convert a hash to an alist" do
+      test_hash = {
+        hello: "heist",
+        how: "you doing",
+        today: 1
+      }
+      converted = to_sexp(test_hash)
+      inject_data converted, "test_hash"
+
+      expect(converted).to eq([
+                               make_cons_pair([:hello, "heist"]),
+                               make_cons_pair([:how, "you doing"]),
+                               make_cons_pair([:today, 1])
+                              ])
+      expression = """
+(assert-equal-stringwise test_hash '(
+(hello . \"heist\")
+(how . \"you doing\")
+(today . 1)
+))
+"""
+      expect(@@runtime.send(:eval, expression)).to eq(true)
+    end
+
   end
 
 end
