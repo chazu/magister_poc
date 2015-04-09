@@ -16,9 +16,17 @@ def create_test_entity options
   ent.persist_recursively
 end
 
+def make_cons_pair pair
+  Heist::Runtime::Cons.new pair[0], pair[1]
+end
+
 @@runtime = Heist::Runtime.new
 @@runtime.define 'assert-equal' do |expected, actual|
   actual.should == expected
+end
+
+@@runtime.define 'assert-equal-stringwise' do |expected, actual|
+  actual.to_s.should == expected.to_s
 end
 
 def inject_data data, name
