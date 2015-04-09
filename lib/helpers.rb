@@ -1,3 +1,5 @@
+require 'heist'
+
 module Magister
   module Helpers
 
@@ -65,8 +67,15 @@ module Magister
     # Take a data structure (string, array or hash) and make it recursively into a Heist
     # data structure (string, list or alist)
     def to_sexp obj
-      if obj.class == Array
+      case 
+      when obj.class == Array
         obj.map { |element| to_sexp(element) }
+      when obj.class == Hash
+        
+        obj.inject([]) do |memo, (key, value)|
+          cons = Heist::Runtime::Cons.new(key, to_sexp(value))
+          memo << cons
+        end
       else
         obj
       end
