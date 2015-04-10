@@ -73,7 +73,8 @@ module Magister
     def to_sexp obj
       case 
       when obj.class == Array
-        obj.map { |element| to_sexp(element) }
+        mutant = obj.map { |element| to_sexp(element) }
+        Heist::Runtime::Cons.construct(mutant)
       when obj.class == Hash
         mutant = obj.inject([]) do |memo, (key, value)|
           cons = Heist::Runtime::Cons.new(key, to_sexp(value))
@@ -90,7 +91,21 @@ module Magister
     # Take a heist data structure (string, list or alist) and recursively make it into a ruby
     # data structure (string, array or hash)
     def from_sexp obj
-      # TODO
+      case
+      when obj.class == Heist::Runtime::Identifier
+        obj.to_ruby
+      when obj.class == Heist::Runtime::Cons
+        if obj.all? { |element| element.respond_to?("pair?") && element.pair? } #Its an alist!
+          obj.inject({}) do |memo, pair|
+            memo[pair.car] = from_sexp(pair.cdr)
+            memo
+          end
+        else
+          obj.to_ruby
+        end
+      else
+        obj
+      end
     end
   end
 end

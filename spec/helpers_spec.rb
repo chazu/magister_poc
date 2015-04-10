@@ -47,12 +47,12 @@ describe Magister::Helpers do
   end
 
   context 'to_sexp' do
-    it "should convert an array into a format consumable by heist" do
+    it "should convert an array into a list" do
       test_array = ["hello", "heist"]
       converted = to_sexp(test_array)
       inject_data converted, "test_array"
       
-      expect(converted).to eq(["hello", "heist"])
+      expect(converted).to be_instance_of Heist::Runtime::Cons
       expect(@@runtime.send(:eval, "(assert-equal test_array '(\"hello\" \"heist\")) ")).to eq(true)
     end
 
@@ -61,7 +61,7 @@ describe Magister::Helpers do
       converted = to_sexp(test_array)
       inject_data converted, "test_array"
       
-      expect(converted).to eq(["hello", ["there", "heist"]])
+      expect(converted).to be_instance_of Heist::Runtime::Cons
       expect(@@runtime.send(:eval, "(assert-equal test_array '(\"hello\" (\"there\" \"heist\"))) ")).to eq(true)
     end
 
@@ -104,7 +104,56 @@ EXPRESSION
 """
       expect(runtime_eval(expression)).to eq(true)
     end
-
   end
 
+  context "from_sexp" do
+    it "should convert an atom to a symbol" do
+      expression = :foo
+      inject_data expression, "test"
+      ruby_handle = runtime_eval("test")
+
+      result = from_sexp(ruby_handle)
+      expect(ruby_handle).to be_instance_of(Heist::Runtime::Identifier)
+      expect(result).to be_instance_of(Symbol)
+      
+    end
+
+    it "should convert a list to an array" do
+      array = ["foo", :bar, 1]
+      sexp = to_sexp(array)
+      result = from_sexp(sexp)
+
+      expect(sexp).to be_instance_of Heist::Runtime::Cons
+      expect(result).to be_instance_of Array
+    end
+
+    it "should convert a nested list to a nested array" do
+      array = ["foo", :bar, [:baz, "quux", 3]]
+      sexp = to_sexp(array)
+      result = from_sexp(sexp)
+
+      expect(sexp).to be_instance_of Heist::Runtime::Cons
+      expect(result).to be_instance_of Array
+      expect(result[2]).to be_instance_of Array
+    end
+
+    it "should convert an alist into a hash" do
+      hash = {foo: :bar, baz: "quux"}
+      sexp = to_sexp(hash)
+      result = from_sexp(sexp)
+
+      expect(sexp).to be_instance_of Heist::Runtime::Cons
+      expect(result).to be_instance_of Hash
+    end
+
+      it "should handle nested hashes" do
+      hash = {foo: :bar, baz: {quux: "aw yiss", hrunkner: "fnord" }}
+      sexp = to_sexp(hash)
+      result = from_sexp(sexp)
+
+      expect(sexp).to be_instance_of Heist::Runtime::Cons
+      expect(result).to be_instance_of Hash
+      expect(result[:baz]).to be_instance_of Hash
+    end
+end
 end

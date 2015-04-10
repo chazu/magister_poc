@@ -24,9 +24,9 @@ module Magister
         expression.to_json
       end
 
-      @runtime.define 'find-entity' do |expression|
-        binding.pry
-        Entity.find(expression["context"] + expression["name"]).as_hash
+      @runtime.define 'find-entity' do |index_key|
+        # TODO Fix this - need to convert to hash and then to sexp
+        Entity.find(index_key)
       end
 
       evaluate_meta
@@ -38,6 +38,11 @@ module Magister
 
     def context
       @entity.context
+    end
+
+    # Set the entity which is the target of the current request under transformation
+    def set_entity ent
+      @requested_entity = ent
     end
 
     def inject_request request
@@ -66,7 +71,6 @@ module Magister
     end
 
     def evaluate
-      binding.pry
       @runtime.send(:eval, @source)
     end
   end
