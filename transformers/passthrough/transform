@@ -1,2 +1,1 @@
-(json-encode (list (find-entity request)
-                   request))
+(string request)

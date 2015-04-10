@@ -19,12 +19,14 @@ module Magister
         @transformers, @returns, @deps = transforms, returns, deps
       end
 
+      # Scheme special form which converts a data structure to JSON.
       @runtime.define 'json-encode' do |expression|
         expression.to_json
       end
 
       @runtime.define 'find-entity' do |expression|
-        Entity.find(expression["context"] +  expression["name"]).as_hash
+        binding.pry
+        Entity.find(expression["context"] + expression["name"]).as_hash
       end
 
       evaluate_meta
@@ -39,7 +41,7 @@ module Magister
     end
 
     def inject_request request
-      @runtime.exec [:define, :request, request.as_hash]
+      @runtime.exec [:define, :request, [:quote, to_sexp(request.as_hash)]]
     end
 
     def inject_dependencies
