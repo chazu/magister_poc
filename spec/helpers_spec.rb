@@ -3,6 +3,15 @@ include Magister::Helpers
 describe Magister::Helpers do
   
   context 'expand_index_key' do
+
+    it 'should return the root context if passed only the root index key' do
+    index_key_to_expand = "/"
+
+    expect(expand_index_key(index_key_to_expand)).to eq([
+                                                          "/",
+                                                        ])
+    end
+    
     it 'should expand into a list of index keys' do
       index_key_to_expand = "/this/is/my/index/key"
 

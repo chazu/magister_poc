@@ -3,6 +3,10 @@ require 'heist'
 module Magister
   module Helpers
 
+    def context_array_to_index_key(context_array)
+      "/" + context_array.join("/")
+    end
+    
     def context_exists index_key
       if index_key == "/"
         true
@@ -45,27 +49,32 @@ module Magister
     end
     
     def expand_index_key index_key
-      split_key = index_key.split("/")
-      split_key
+      if index_key == "/"
+        # TODO This be jankyyyyy
+        ["/"]
+      else
+        split_key = index_key.split("/")
+        split_key
 
-      injected = split_key.inject([]) do |memo, component|
-        last_one = memo.last
-        val = (component == "" ? "/" : component)
-        if !last_one
-          memo << val
-        else
-          memo << last_one + val + "/"
+        injected = split_key.inject([]) do |memo, component|
+          last_one = memo.last
+          val = (component == "" ? "/" : component)
+          if !last_one
+            memo << val
+          else
+            memo << last_one + val + "/"
+          end
         end
-      end
 
-      # TODO This is hinky as fuck, plz fix
-      trimmed = injected.map do |x|
-        if not x == "/"
-          x[-1] = ""
+        # TODO This is hinky as fuck, plz fix
+        trimmed = injected.map do |x|
+          if not x == "/"
+            x[-1] = ""
+          end
+          x
         end
-        x
+        trimmed
       end
-      trimmed
     end
 
     # Take a data structure (string, array or hash) and make it recursively into a Heist
