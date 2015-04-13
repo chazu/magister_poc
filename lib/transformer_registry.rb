@@ -43,11 +43,11 @@ module Magister
       transformer_entities.each do |transformer_entity|
         begin
           puts "Initializing transformer: " + transformer_entity.index_key
-    
+          binding.pry    
           index_key_for_transformers_home_context = Entity.context_array_to_index_key(transformer_entity.context)
           if @@registry.keys.include?(index_key_for_transformers_home_context)
 
-            @@registry[index_key_for_transformers_home_context] << transformer_entity
+            @@registry[index_key_for_transformers_home_context] << Transformer.new(transformer_entity)
           else
             @@registry[index_key_for_transformers_home_context] = [Transformer.new(transformer_entity)]
           end
