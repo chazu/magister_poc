@@ -10,18 +10,18 @@ module Magister
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
       @entity = transformer_entity
-      @domain = Entity.context_array_to_index_key(transformer_entity.context)
+      @domain = domain_from_installed_context transformer_entity
       @source = Entity.find(transformer_entity.index_key + "/transform").data.readlines.join
       @meta = Entity.find(transformer_entity.index_key + "/meta").data.readlines.join
 
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, deps|
-        @transformers, @returns, @deps = transforms, returns, deps
+        @transforms, @returns, @deps = transforms.cdr, returns.cdr, from_sexp(deps.cdr)
       end
 
       # Scheme special form which converts a data structure to JSON.
       @runtime.define 'json-encode' do |expression|
-        expression.to_json
+        from_sexp(expression).to_json
       end
 
       @runtime.define 'find-entity' do |index_key|
@@ -37,7 +37,19 @@ module Magister
     end
 
     def context
-      @entity.context
+      Entity.context_array_to_index_key(@entity.context)
+    end
+
+    # Return the actual domain of the transformer by removing the
+    # _/transformers bit of the index key
+    # Takes an entity
+    def domain_from_installed_context transformer_entity
+      index_key = Entity.context_array_to_index_key(transformer_entity.context)
+      actual_domain = index_key.gsub("/_/transformers", "")
+      if actual_domain == ""
+        actual_domain = "/"
+      end
+      actual_domain
     end
 
     # Set the entity which is the target of the current request under transformation

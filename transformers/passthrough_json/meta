@@ -1,4 +1,4 @@
 (meta
  '(transforms "*/*")
- '("returns" "application/scheme")
+ '("returns" "application/json")
  '("deps" ()))

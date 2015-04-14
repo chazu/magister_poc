@@ -6,7 +6,29 @@ module Magister
   class TransformerRegistry
 
     def self.transformer_for_request req
-      @@registry["/_/transformers"][0]
+      # Find all possible transformers for the index path, all the way to the root
+      context_index_key = context_array_to_index_key(req.context)
+      contexts_above = expand_index_key(context_index_key)
+
+      transformer_contexts_above = contexts_above.map do |x|
+        if x == "/"
+          x += "_/transformers"
+        else
+          x += "/_/transformers"
+        end
+      end
+      
+      eligible_transformers = @@registry.select do |transformer|
+
+        transformer_contexts_above.include? transformer.context
+      end
+      binding.pry
+
+      # Filter out the ones that don't transform the content-type specified in the request
+      # i.e. the request's content-type doesn't match one of the types specified in the transformer's 'transforms' meta
+      # Finally, filter out all those whose 'returns' meta doesn't match the HTTP_ACCEPT header of the request
+      
+      @@registry[0]
     end
 
     def self.transformer_context_index_keys
@@ -34,7 +56,7 @@ module Magister
       puts "initializing register"
 
 
-      @@registry = {}
+      @@registry = []
 
       transformer_contexts_index_keys = self.transformer_context_index_keys # Index keys for contexts containing transformers
       transformer_index_keys = self.index_keys_in_contexts(transformer_contexts_index_keys) # Should be all the transformers' index keys
@@ -43,14 +65,9 @@ module Magister
       transformer_entities.each do |transformer_entity|
         begin
           puts "Initializing transformer: " + transformer_entity.index_key
-          binding.pry    
+          binding.pry
           index_key_for_transformers_home_context = Entity.context_array_to_index_key(transformer_entity.context)
-          if @@registry.keys.include?(index_key_for_transformers_home_context)
-
-            @@registry[index_key_for_transformers_home_context] << Transformer.new(transformer_entity)
-          else
-            @@registry[index_key_for_transformers_home_context] = [Transformer.new(transformer_entity)]
-          end
+          @@registry << Transformer.new(transformer_entity)
         rescue Exception => e
           puts "Exception while initializing Transformer Registry:"
           puts e
@@ -64,13 +81,8 @@ module Magister
     end
 
     def self.to_json
-      mapped = @@registry.map do |key, value|
-        sigh = {"context" => key,
-          "transformers" => []}
-        value.each do |transformer|
-          sigh["transformers"] << transformer.as_hash
-        end
-        sigh
+      mapped = @@registry.map do |transformer|
+        transformer.as_hash
       end
       mapped.to_json
     end

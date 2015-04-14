@@ -143,7 +143,7 @@ module Magister
 
     def persist
       # Add a terminating slash if its a context - for Amazon S3
-      print "Persisting index key " + index_key + " indexing..."
+      # print "Persisting index key " + index_key + " indexing..."
       s3_key = is_context? ? index_key + "/" : index_key
       if s3_key[0] == "/"
         s3_key[0] = '' # Remove initial slash, cos s3
@@ -153,7 +153,7 @@ module Magister
           metadata: {},
         _isContext: @is_context
       }
-      print "adding to store...\n"
+      # print "adding to store...\n"
       store_object = Magister::Config.store.put(s3_key,
           @data)
     end
