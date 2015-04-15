@@ -5,14 +5,20 @@ module Magister
   class Transformer
 
     attr_accessor :runtime #This is hacky. In here so's testing is easy but its horrible.
-    attr_accessor :returns, :transforms, :deps, :verbs
+    attr_accessor :returns, :transforms, :deps, :verbs, :domain
     def initialize(transformer_entity)
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
       @entity = transformer_entity
       @domain = domain_from_installed_context transformer_entity
-      @source = Entity.find(transformer_entity.index_key + "/transform").data.readlines.join
-      @meta = Entity.find(transformer_entity.index_key + "/meta").data.readlines.join
+
+      @source = Entity.find(transformer_entity.index_key + "/transform").data
+      @meta = Entity.find(transformer_entity.index_key + "/meta").data
+
+      # Response ivars
+      @status = nil
+      @headers = []
+      @body = nil
 
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, verbs, deps|
@@ -26,7 +32,44 @@ module Magister
 
       @runtime.define 'find-entity' do |index_key|
         # TODO Fix this - need to convert to hash and then to sexp
-        Entity.find(index_key)
+        entity = Entity.find(index_key)
+        to_sexp(entity ? entity : false)
+      end
+
+      @runtime.define 'entity-data' do |entity|
+        entity.data
+      end
+      # TODO Find entity metadata as special form
+
+      #
+      #
+      # Setting status, headers and body
+      @runtime.define 'body' do |thing|
+        @body = thing
+      end
+
+      @runtime.define 'header' do |header|
+        @headers << from_sexp(header)
+      end
+
+      @runtime.define 'status' do |status|
+        @status = from_sexp(status)
+      end
+
+      #
+      # TODO Should these be procs or just injected data?
+      # Return the index key of the directory holding this transformer
+      @runtime.define 'transformer-path' do
+        @entity.index_key
+      end
+
+      # Return the index key of the context into which we've installed this transformer
+      @runtime.define 'domain-path' do
+        @domain
+      end
+      
+      @runtime.define 'debug' do
+        binding.pry
       end
 
       evaluate_meta

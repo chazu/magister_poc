@@ -7,7 +7,7 @@ module Ludi
 
   def self.transformer
     local_copy = ask("Relative path to transformer directory?")
-    remote_context = ask("Destination path on server? Blank for root...")
+    remote_context = ask("Destination context on server? Blank for root...")
     remote_name = ask("Name for remote copy of transformer?")
 
     # Remove terminating "/" from destination if present
@@ -25,7 +25,7 @@ module Ludi
     # Find all files in the transformer
     Find.find(local_copy) do |this_path|
       truncated_path = this_path.gsub(local_copy, "") 
-      that_path = destination_index_path + "/" + remote_name
+      that_path = destination_index_path + remote_name
       final_destination_index_key = that_path + (truncated_path.length ? "" + truncated_path : "")
       puts this_path + " => " + final_destination_index_key
       res << {index_key: final_destination_index_key, path: this_path}
@@ -54,7 +54,7 @@ module Ludi
 
   def self.parse_remote_context context_string
     context_string == "" ? "/_/transformers" :
-      "/_/transformers/" + context_string
+       context_string + "/_/transformers/"
   end
 end
 

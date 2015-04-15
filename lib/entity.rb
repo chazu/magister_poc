@@ -127,7 +127,7 @@ module Magister
           s3_key = index_key
           s3_key[0] = ""
 
-          @data ||= Magister::Config.store.get(s3_key)
+          @data ||= Magister::Config.store.get(s3_key).readlines.join
           # @data ||= Magister::Config.store.store.objects.find(index_key).content
         end
       end

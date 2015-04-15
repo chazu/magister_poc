@@ -2,11 +2,9 @@ require "./lib/magister.rb"
 ENV['MAGISTER_ENV'] = "test"
 require "./app.rb"
 
-if File.file?(Magister::Config.options["indexFileKey"])
-  File.delete(Magister::Config.options["indexFileKey"])
+def register_transformer class_name
+  # TODO Clear out transformer registry, add specified transformer instance to registry
 end
-
-Magister::Config.store.store.clear!
 
 def runtime_eval expression
   @@runtime.eval(expression)
@@ -20,7 +18,7 @@ def create_test_entity options
   ent.persist_recursively
 end
 
-# Take an array of length 2 and return a Heist Cons for it. Also takes hashes as the cdr of the cons
+# Take an array of length 2 and return a Heist Cons for it.
 def make_cons_pair pair
   Heist::Runtime::Cons.new pair[0], pair[1]
 end
@@ -41,6 +39,15 @@ end
 require 'rack/test'
 require 'rspec'
 require 'pry'
+
+rspec.configure do |c|
+  before :all do
+    if File.file?(Magister::Config.options["indexFileKey"])
+      File.delete(Magister::Config.options["indexFileKey"])
+    end
+    Magister::Config.store.store.clear!
+  end
+end
 
 ENV['RACK_ENV'] = 'test'
 

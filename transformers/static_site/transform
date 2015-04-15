@@ -1,0 +1,11 @@
+;; Try to find entity requested
+(define target (+ (cdr (assoc "context" request))
+                  (cdr (assoc "name" request))))
+(debug)
+(define target-entity (find-entity target))
+
+(if target-entity
+    (entity-data target-entity)
+    (entity-data (find-entity (+ (transformer-path) "/index.html"))))
+
+

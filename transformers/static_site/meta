@@ -1,7 +1,5 @@
 (meta
  '(transforms "*/*")
-               :jpg,
-              :gif)
- '(returns '("text/html"))
+ '(returns "*/*")
  '(verbs "GET")
  '(deps ()))

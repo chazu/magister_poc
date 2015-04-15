@@ -9,7 +9,6 @@ module Magister
       # Find all possible transformers for the index path, all the way to the root
       context_index_key = context_array_to_index_key(req.context)
       contexts_above = expand_index_key(context_index_key)
-
       transformer_contexts_above = contexts_above.map do |x|
         if x == "/"
           x += "_/transformers"
@@ -20,6 +19,21 @@ module Magister
       
       eligible_transformers = @@registry.select do |transformer|
         transformer_contexts_above.include? transformer.context
+      end
+
+      # Order from most specific to least specific
+      eligible_transformers.sort! do |a, b|
+        a_length = a.domain.split("/").length
+        b_length = b.domain.split("/").length
+
+        case
+        when a_length > b_length
+          1
+        when a_length == b_length
+          0
+        when a_length < b_length
+          -1
+        end
       end
 
       # Filter for request verbs
@@ -44,7 +58,8 @@ module Magister
       else
         transform_specified_type = return_specified_type
       end
-      return_specified_type[0]
+      
+      return_specified_type.last
     end
 
     def self.transformer_context_index_keys
