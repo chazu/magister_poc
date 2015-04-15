@@ -3,5 +3,5 @@
                :jpg,
               :gif)
  '(returns '("text/html"))
- '(verbs '())
+ '(verbs "GET")
  '(deps ()))

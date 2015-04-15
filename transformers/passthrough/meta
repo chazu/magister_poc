@@ -1,5 +1,5 @@
 (meta
  '(transforms "*/*")
  '(returns "application/scheme")
- '(verbs '("GET"))
+ '(verbs "GET")
  '("deps" ()))

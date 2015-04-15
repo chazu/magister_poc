@@ -5,7 +5,7 @@ module Magister
   class Transformer
 
     attr_accessor :runtime #This is hacky. In here so's testing is easy but its horrible.
-    attr_accessor :returns, :transforms, :deps
+    attr_accessor :returns, :transforms, :deps, :verbs
     def initialize(transformer_entity)
       @runtime = Heist::Runtime.new
       # Load actual transformer code into runtime
@@ -16,7 +16,7 @@ module Magister
 
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, verbs, deps|
-        @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr),from_sexp(deps.cdr)
+        @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr), from_sexp(deps.cdr)
       end
 
       # Scheme special form which converts a data structure to JSON.
