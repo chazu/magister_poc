@@ -1,23 +1,16 @@
 NOTE: Moving over to TODO.org for todos
 
 # TODO
-* Write mixin (?) or utils for converting ruby objects into scheme datatypes and vice versa (hint: use alists)
 * Set up noob-friendly aliases for using a-lists.
 * Extract app into module in lib
-* Spec and Implement Transformer Register init
 * Spec and Implement logical deletion (DELETE verb handler)
-* Spec and Implement PATCH, PUT, OPTIONS, HEAD?
 * Spec and Implement GET context contents
 * Create scheduler entity
 * Refactor, testing backfill
-* How do we get the contents of a context?
-
 
 ## TODO Less important
 * Can you get _index entity? What about _config entity?
-* PUT and PATCH, HEAD and OPTIONS
 * Error out if asked to create a context with a name thats already taken by a file
-* What is metadata going to look like?
 * Flush and sync index on shutdown - Grape I guess...
 
 # DONE
