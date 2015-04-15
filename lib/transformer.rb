@@ -15,8 +15,8 @@ module Magister
       @meta = Entity.find(transformer_entity.index_key + "/meta").data.readlines.join
 
       # Configure special forms
-      @runtime.define 'meta' do |transforms, returns, deps|
-        @transforms, @returns, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(deps.cdr)
+      @runtime.define 'meta' do |transforms, returns, verbs, deps|
+        @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr),from_sexp(deps.cdr)
       end
 
       # Scheme special form which converts a data structure to JSON.
