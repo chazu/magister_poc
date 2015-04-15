@@ -78,8 +78,8 @@ TODO - Shows recent modifications to store
  - Domain - When speaking about a transformer, the section of the store's tree which the transformer has access to. By default it is the context of the transformer and all nodes below it in the tree.
  - Environment - When speaking about a transformer, a variable injected into the transformer's operation which provides access to external resources including the data store, any file caches and other utilities of use.
  - Antecedent - When speaking about a transformer, the computational resources which can be leveraged by the transformer which reside higher up in the store's tree. Defaults to all contexts which precede the context of the transformer being executed. This is in contrast to the domain, which contains all data below the context of the transformer.
- - Transforms - TODO
- - Returns - TODO
+ - Transforms - The content types capable of being transformed - Should match the content-type of the request, if applicable
+ - Returns - Content type being returned - this must match the HTTP-ACCEPT header of the request
 
 
 ### The Transformer Register
