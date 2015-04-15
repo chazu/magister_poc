@@ -1,6 +1,7 @@
 (meta
- '(:transforms :png,
-              :jpg,
+ '(transforms "*/*")
+               :jpg,
               :gif)
- '(:returns :text)
- '(:deps ()))
+ '(returns '("text/html"))
+ '(verbs '())
+ '(deps ()))
