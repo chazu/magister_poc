@@ -1,6 +1,6 @@
 module Magister
   class Request
-    attr_accessor :context, :name, :is_context
+    attr_accessor :context, :name, :is_context, :headers
 
     def http_request_indicates_context(request)
       if request.path == "/"

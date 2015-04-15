@@ -19,16 +19,29 @@ module Magister
       end
       
       eligible_transformers = @@registry.select do |transformer|
-
         transformer_contexts_above.include? transformer.context
       end
-      binding.pry
+
+      # Filter on the 'returns' types for each transformer
+      if req.headers["HTTP_ACCEPT"] && req.headers["HTTP_ACCEPT"] != "*/*"
+        return_specified_type = eligible_transformers.select do |transformer|
+          transformer.returns.include? req.headers["HTTP_ACCEPT"]
+        end
+      else
+        return_specified_type = eligible_transformers
+      end
 
       # Filter out the ones that don't transform the content-type specified in the request
-      # i.e. the request's content-type doesn't match one of the types specified in the transformer's 'transforms' meta
-      # Finally, filter out all those whose 'returns' meta doesn't match the HTTP_ACCEPT header of the request
+      if req.headers["CONTENT_TYPE"] && req.headers["CONTENT_TYPE"] != "*/*"
+        transform_specified_type = return_specified_type.select do |transformer|
+          transformer.transforms.include? req.headers["CONTENT_TYPE"]
+        end
+      else
+        transform_specified_type = return_specified_type
+      end
       
-      @@registry[0]
+      binding.pry
+      return_specified_type[0]
     end
 
     def self.transformer_context_index_keys
@@ -65,7 +78,6 @@ module Magister
       transformer_entities.each do |transformer_entity|
         begin
           puts "Initializing transformer: " + transformer_entity.index_key
-          binding.pry
           index_key_for_transformers_home_context = Entity.context_array_to_index_key(transformer_entity.context)
           @@registry << Transformer.new(transformer_entity)
         rescue Exception => e
