@@ -1,13 +1,13 @@
 * Transformer Registry
-** DONE Implement TransformerRegistry::transformer_for_request
-   CLOSED: [2015-04-14 Tue 22:05]
+** TODO Transformers must set status
+** TODO Transformers can set body
+** TODO Transformers can set headers
+** TODO Add built-in for binding.pry in transformer
 ** TODO Implement default data transformer as builtin class
-** TODO Transformers need to specify the verbs they support
 ** TODO Set up means of using transformers in feature tests
 ** TODO Transformers should be able to yield
 ** TODO More detailed error reporting on transformer load
 ** TODO Implement default data transformer - return data as text
-
 ** TODO Implement static site transformer
 * Helpers
 ** TODO When translating from sexps use strings when atoms contain illegal characters for symbols
@@ -20,6 +20,8 @@
 
 
 * FINISHED
+** DONE Transformers need to specify the verbs they support
+   CLOSED: [2015-04-15 Wed 10:17]
 ** DONE Add all relevant details (headers, form stuff) to Magister::Request
    CLOSED: [2015-04-12 Sun 00:49]
 ** DONE Clean up thorfile - ditch thor for...custom script? sure...
