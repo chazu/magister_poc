@@ -1,14 +1,24 @@
 * Transformer Registry
-** TODO Transformers must set status
+** TODO Add testing utilities for testing built-in functions of transformers
+** TODO Add better http request mocking helpers
+** TODO Add built-in for accessing the request path within the transformer's domain
+** STARTED Finish Static site
+** TODO Transformers can set status
 ** TODO Transformers can set body
 ** TODO Transformers can set headers
-** TODO Add built-in for binding.pry in transformer
 ** TODO Implement default data transformer as builtin class
 ** TODO Set up means of using transformers in feature tests
 ** TODO Transformers should be able to yield
 ** TODO More detailed error reporting on transformer load
 ** TODO Implement default data transformer - return data as text
 ** TODO Implement static site transformer
+* Transformers
+** TODO Implement built-in for delegating to another transformer?
+* Media Access Patterns
+** TODO Think about how stratification works
+** TODO Think about types of collections - streams, feeds, lists...
+** TODO Think about proxying feeds into other feeds
+** TODO Think about UI Matrix - mapping sets of ui controls/platforms to actions
 * Helpers
 ** TODO When translating from sexps use strings when atoms contain illegal characters for symbols
 * Handlers
@@ -20,6 +30,8 @@
 
 
 * FINISHED
+** DONE Add built-in for binding.pry in transformer
+   CLOSED: [2015-04-16 Thu 16:28]
 ** DONE Transformers need to specify the verbs they support
    CLOSED: [2015-04-15 Wed 10:17]
 ** DONE Add all relevant details (headers, form stuff) to Magister::Request

@@ -216,7 +216,7 @@ describe Entity do
       options = options_from_request(req)
       entity = Entity.new(options, nil)
 
-      expect(entity.contents).to eq(["/lets/make/transform", "/lets/make/happy", "/lets/make/an"])
+      expect(entity.contents).to eq(["/lets/make/transform", "/lets/make/happy"])
     end
   end
 
@@ -227,7 +227,7 @@ describe Entity do
         :data => "hello"})
 
     it 'should return the data of the entity' do
-      expect(Entity.find("/lets/make/happy/times").data.gets).to eq("hello")
+      expect(Entity.find("/lets/make/happy/times").data).to eq("hello")
     end
   end
 end

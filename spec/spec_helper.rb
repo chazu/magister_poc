@@ -40,7 +40,7 @@ require 'rack/test'
 require 'rspec'
 require 'pry'
 
-rspec.configure do |c|
+RSpec.configure do |c|
   before :all do
     if File.file?(Magister::Config.options["indexFileKey"])
       File.delete(Magister::Config.options["indexFileKey"])
