@@ -1,17 +1,32 @@
-* Transformer Registry
+* General/Transformer Registry
+** TODO Read Mike Amundsen's book again
+** TODO Read the git source code walkthrough
+** TODO Watch that guy's videos on bittorrent lib in python
+** TODO Think about a default UI for magister
+** TODO Set up real honest-to-goodness logging
+** TODO Package magister as a gem
+** TODO Work on first-time setup
+*** TODO Add keypair for store
+*** TODO Add UDID for store
+*** TODO Add name for store
+** TODO Implement _scheduler
 ** TODO Add testing utilities for testing built-in functions of transformers
 ** TODO Add better http request mocking helpers
-** TODO Add built-in for accessing the request path within the transformer's domain
+** TODO Add default transformer subclass for when requests aren't caught.
+*** TODO Respond with html
+*** TODO Respond with json
+*** TODO Respond with sexp
 ** STARTED Finish Static site
-** TODO Transformers can set status
-** TODO Transformers can set body
-** TODO Transformers can set headers
-** TODO Implement default data transformer as builtin class
+*** TODO send index.html if context is target of request
+** TODO Transformers must set status
+** TODO Transformers must set body
+** TODO Transformers must set headers
 ** TODO Set up means of using transformers in feature tests
-** TODO Transformers should be able to yield
+** TODO Transformers should be able to yield?
 ** TODO More detailed error reporting on transformer load
 ** TODO Implement default data transformer - return data as text
 ** TODO Implement static site transformer
+** TODO Add mime types as entities?
 * Transformers
 ** TODO Implement built-in for delegating to another transformer?
 * Media Access Patterns
@@ -40,3 +55,5 @@
    CLOSED: [2015-04-01 Wed 23:55]
 ** DONE Implement Passthrough transformer
    CLOSED: [2015-04-04 Sat 16:58]
+** DONE Add built-in for accessing the request path within the transformer's domain
+   CLOSED: [2015-04-17 Fri 17:40]
