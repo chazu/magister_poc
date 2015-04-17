@@ -25,6 +25,13 @@ module Magister
         @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr), from_sexp(deps.cdr)
       end
 
+      @runtime.define 'string-sub' do |string, find, replace|
+        string.gsub(from_sexp(find), from_sexp(replace))
+      end
+
+      @runtime.define 'config' do |expression|
+        @config = from_sexp(expression)
+      end
       # Scheme special form which converts a data structure to JSON.
       @runtime.define 'json-encode' do |expression|
         from_sexp(expression).to_json
@@ -39,8 +46,7 @@ module Magister
       @runtime.define 'entity-data' do |entity|
         entity.data
       end
-      # TODO Find entity metadata as special form
-
+      
       #
       #
       # Setting status, headers and body
@@ -67,11 +73,22 @@ module Magister
       @runtime.define 'domain-path' do
         @domain
       end
+      @runtime.define 'split-path' do |path_string|
+        to_sexp(path_string.split("/"))
+      end
+
+      @runtime.define 'join-path' do |path_list|
+        to_sexp(from_sexp(path_list).join("/"))
+      end
       
       @runtime.define 'debug' do
         binding.pry
       end
 
+      @runtime.define 'transformer-name' do
+        name
+      end
+      
       evaluate_meta
     end
 
@@ -122,11 +139,19 @@ module Magister
 
     def evaluate_meta
       @runtime.send(:eval, @meta)
-
     end
 
+    def evaluate_config
+      @runtime.send(:eval, @config)
+    end
+    
     def evaluate
       @runtime.send(:eval, @source)
+    end
+    private
+
+    def re source
+      @runtime.send(:eval, source)
     end
   end
 end
