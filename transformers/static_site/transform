@@ -1,8 +1,20 @@
-;; Try to find entity requested
-(define target (+ (cdr (assoc "context" request))
-                  (cdr (assoc "name" request))))
+;; Static Site Transformer -
+;; Remap the request to the folder containing site assets
+;;
+
+(define (pop-last l) (reverse (cdr (reverse l))))
+
+;; Return the index key of the entity requested as if
+;; the user asked for it from the transformer's directory
+(define (remap-request-to-transformer-dir request)
+  (let* ((context-with-name (string-append (cdr (assoc "context" request))
+                                           "/"
+                                           (cdr (assoc "name" request))))
+         (domain-removed (string-sub context-with-name (transformer-domain) ""))
+         (remapped (string-append (transformer-context) domain-removed)))
+    remapped))
 (debug)
-(define target-entity (find-entity target))
+(define target-entity (find-entity (remap-request-to-transformer-dir request)))
 
 (if target-entity
     (entity-data target-entity)

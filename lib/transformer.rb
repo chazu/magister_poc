@@ -14,12 +14,12 @@ module Magister
 
       @source = Entity.find(transformer_entity.index_key + "/transform").data
       @meta = Entity.find(transformer_entity.index_key + "/meta").data
-
+      @config = Entity.find(transformer_entity.index_key + "/config").data
       # Response ivars
       @status = nil
       @headers = []
       @body = nil
-
+      
       # Configure special forms
       @runtime.define 'meta' do |transforms, returns, verbs, deps|
         @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr), from_sexp(deps.cdr)
@@ -65,12 +65,12 @@ module Magister
       #
       # TODO Should these be procs or just injected data?
       # Return the index key of the directory holding this transformer
-      @runtime.define 'transformer-path' do
+      @runtime.define 'transformer-context' do
         @entity.index_key
       end
 
       # Return the index key of the context into which we've installed this transformer
-      @runtime.define 'domain-path' do
+      @runtime.define 'transformer-domain' do
         @domain
       end
       @runtime.define 'split-path' do |path_string|

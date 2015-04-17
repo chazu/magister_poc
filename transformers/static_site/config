@@ -1,0 +1,7 @@
+(config '((url (required . #t)
+               
+               (default "http://news.google.com/rss"))
+          (frequency (required #t)
+                     (default 45)
+                     (remark "Frequency of updates - in minutes")
+                     (validate numeric))))
