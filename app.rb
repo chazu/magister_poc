@@ -1,8 +1,12 @@
+require 'json'
+
 require './lib/magister.rb'
 
 require 'rufus-scheduler'
 require 'sinatra'
 require 'pry'
+
+require './lib/entity'
 
 if ENV['MAGISTER_ENV'] == "test"
   puts "Setting ENV to TEST"
@@ -19,10 +23,7 @@ Magister::Config.set_index Magister::Index.new store
 # Initialize Transformer Registry
 Magister::TransformerRegistry.initialize_register
 
-scheduler = Rufus::Scheduler.new
-scheduler.every '30s' do
-  Magister.sync_index_to_store
-end
+Magister::Scheduler.instance
 
 module Magister
   class App < Sinatra::Application
