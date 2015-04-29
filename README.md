@@ -1,3 +1,7 @@
+Magister is a personal knowledgebase/data store focused on extensibility
+and minimally complicated conceptual design. For detailed info on the
+design see MANUAL.md
+
 NOTE: Moving over to TODO.org for todos
 
 # TODO
