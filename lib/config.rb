@@ -9,6 +9,9 @@ module Magister
     def self.set_env file_path
       file = File.read(file_path)
       @options = JSON.parse(file)
+      # Set up defaults if not specified
+      !@options["host"] ? @options["host"] = "localhost" : nil
+      !@options["port"] ? @options["port"] = "9292" : nil
     end
 
     def self.options
