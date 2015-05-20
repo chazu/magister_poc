@@ -111,7 +111,7 @@ module Magister
     end
     private
 
-    def re source
+    def re source # Short for runtime evaluate
       @runtime.send(:eval, source)
     end
   end
