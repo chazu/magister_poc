@@ -1,6 +1,19 @@
 * General/Transformer Registry
+** TODO Add default transformer subclass for when requests aren't caught.
+*** DONE Respond with text
+    CLOSED: [2015-05-21 Thu 15:38]
+*** TODO Respond with html
+*** TODO Respond with json
+*** TODO Respond with sexp
+** STARTED Write transformer to synchronize feedhq starred entries periodically
+** TODO Create transformer tool for editing transformers
+** TODO Set up noob-friendly aliases for using a-lists.
+** TODO Extract app into module in lib
+** TODO Entities should have optional mime type metadata
+** TODO Spec and Implement logical deletion (DELETE verb handler)
+** TODO Spec and Implement GET context contents
+** TODO Refactor, testing backfill
 ** TODO Read Mike Amundsen's book again
-** TODO Read the git source code walkthrough
 ** TODO Watch that guy's videos on bittorrent lib in python
 ** TODO Scrap API tests, make features/ dir with capybara testing
 ** TODO Think about a default UI for magister
@@ -12,16 +25,15 @@
 *** TODO Add name for store
 ** TODO Add testing utilities for testing built-in functions of transformers
 ** TODO Add better http request mocking helpers
-** TODO Add default transformer subclass for when requests aren't caught.
-*** TODO Respond with html
-*** TODO Respond with json
-*** TODO Respond with sexp
 ** TODO Set up means of using transformers in feature tests
 ** TODO Transformers should be able to yield?
 ** TODO More detailed error reporting on transformer load
-** TODO Implement static site transformer
 ** TODO Add mime types as entities?
-* Transformers
+** TODO Can you get _index entity? What about _config entity?
+** TODO Error out if asked to create a context with a name thats already taken by a file
+** TODO Flush and sync index on shutdown - Grape I guess
+
+** TODO Transformers
 ** TODO Draw up flowchart for transformer selection
 ** TODO Implement built-in for delegating to another transformer?
 ** TODO Implement template transformer for handlebars templating
@@ -31,8 +43,10 @@
 
 ** TODO Implement default data transformer - return data as text
 * Scheduler
+** TODO Document format(s) for entries
+** TODO Specify hostname and port optionally in entries
 ** TODO Parse sexps as well as json
-** TODO Handle more methods than just POST
+
 * Media Access Patterns
 ** TODO Think about how stratification works
 ** TODO Think about types of collections - streams, feeds, lists...
@@ -67,3 +81,30 @@
    CLOSED: [2015-04-22 Wed 12:49]
 *** DONE send index.html if context is target of request
     CLOSED: [2015-04-22 Wed 12:49]
+** DONE Read the git source code walkthrough
+   CLOSED: [2015-05-15 Fri 17:24]
+** DONE Handle more methods than just POST
+   CLOSED: [2015-05-20 Wed 12:51]
+** DONE Implement static site transformer
+   CLOSED: [2015-05-20 Wed 12:52]
+** DONE Implement passthrough transformer
+** DONE Set up transformer registry
+** DONE Create pseudo-endpoint to see transformer registry
+** DONE Handle errors during transformer register initialization
+** DONE Extract each verb handler into its own file
+** DONE Make sure data is persisted when entity is persisted
+** DONE Make sure data is retrieved via Entity::find
+** DONE Set up test env and harness for specs - clean DB between runs/specs
+** DONE Load config from file - multiple envs
+** DONE Create super-basic Entity#contents
+** DONE Write thor task to upload transformers
+** DONE Set up basic transformer class with Heist
+** DONE Establish interface for storage adapter
+** DONE write contexts_to_create_for_request helper
+** DONE Recursively create contexts when persisting an entity
+** DONE Write context_exists method on index (helper, actually)
+** DONE Move index functionality into index class
+** DONE Move Store and Index classes into their own damn files
+** DONE Create 'find' method for Entity, for use in get handler
+** DONE Create scheduler entity
+   CLOSED: [2015-05-20 Wed 12:59]

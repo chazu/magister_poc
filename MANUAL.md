@@ -88,6 +88,24 @@ When the magister server is started, the store is searched for transformers. For
 
 As mentioned earlier, each transformer within one of these contexts will itself be a context, containing at least one other entity, named _transform_, which is where execution of the transformer itself begins. Other entities may include assets for use by the transformer, metadata about the transformer (in an entity named 'meta') or dependency information (in an entity named 'deps') to be used when loading or installing the transformer.
 
+#### Transformer Selection and Execution
+
+A request can be handled by one or more transformers. At the same time, a transformer can be constructed to explicitly chain the operations of multiple other transformers. Finally, the Register can compose transformers at request-time based on the parameters of the request. We will look at all of these scenarios, starting with the simplest.
+
+##### Simple Transformer Execution
+
+TODO: One transformer is executed
+
+##### Transformer Composition
+
+TODO: A transformer explicitly chains other transformers
+
+##### Implicit Transformer Chaining
+
+It is also possible for a transformer to yield without specifying explicitly which transformer should be activated next. In this case, the Registry is called to determine which transformer should be called next.
+
+TODO: Code example of yield and yield_or_return
+
 ### Transformer Syntax and Operation
 
 *****!!!PLEASE NOTE!!!***** that as Magister is currently pre-alpha software, there may (and in all likeliness *will be*) some significant changes to the transformer API. At present, transformers leverage an embedded Scheme interpreter.
