@@ -1,0 +1,25 @@
+;; Pull Collection - Get a collection (e.g. bookmarks) and sync it to a context
+;;
+
+;; If we're GETting:
+;; (if-get
+;;  (let* ((auth-token 
+;;    (debug)
+;;    ))
+(debug)
+(http-get '((:url "http://www.feedhq.org/reader/api/0/")
+                                  :accept "application/json"))
+;; Get all of the articles
+;; Yield to next transformer if present, otherwise provide default response
+
+
+;; If we're POSTing:
+;; Get token from API
+
+;; Get starred items
+
+;; Parse XML into s-exps
+
+;; Map over result and store each one as an entity
+;;(define response (http-get 'http://'))
+

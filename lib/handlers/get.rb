@@ -3,8 +3,8 @@ module Magister
   module API
     module GetHandler
       def self.included base
-        base.get '*' do
-
+        base.get "*" do
+          binding.pry
           req = Request.new(request)
           index_key = Entity.request_index_key(req)
           ent = Entity.find(index_key)
@@ -14,7 +14,7 @@ module Magister
             transformer = Magister::TransformerRegistry.transformer_for_request(req)
             transformer.inject_request(req)
             transformer.set_entity ent
-            response = transformer.evaluate
+            response = Magister::TransformerExecutor.handle_request(req)
             body response || ""
           # else
           #   status 404

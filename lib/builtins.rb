@@ -1,6 +1,22 @@
 module Magister
   module TransformerBuiltins
     def define_builtins
+
+      # HTTP Client methods
+      @runtime.define 'http-get' do |alist|
+        options = from_sexp(alist)
+        binding.pry
+      end
+
+      # Yield
+      @runtime.define 'yield' do |args|
+        # TODO Call transformer, execute, return
+      end
+
+      @runtime.define 'yield-or-return' do
+        # TODO Implicitly call another transformer
+      end
+      
       @runtime.define 'meta' do |transforms, returns, verbs, deps|
         @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr), from_sexp(deps.cdr)
       end

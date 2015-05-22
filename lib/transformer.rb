@@ -4,11 +4,13 @@ require 'heist'
 module Magister
   class Transformer
     include Magister::TransformerBuiltins
-    
+
     attr_accessor :runtime #This is hacky. In here so's testing is easy but its horrible.
     attr_accessor :returns, :transforms, :deps, :verbs, :domain
+
     def initialize(transformer_entity)
       @runtime = Heist::Runtime.new
+
       # Load actual transformer code into runtime
       @entity = transformer_entity
       @domain = domain_from_installed_context transformer_entity
@@ -109,8 +111,8 @@ module Magister
     def evaluate
       @runtime.send(:eval, @source)
     end
-    private
 
+    private
     def re source # Short for runtime evaluate
       @runtime.send(:eval, source)
     end

@@ -1,0 +1,5 @@
+(meta
+ '(transforms "*/*")
+ '(returns "application/json")
+ '(verbs "GET" "POST" "PUT")
+ '(deps ()))

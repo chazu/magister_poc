@@ -15,7 +15,9 @@ require './lib/handlers/delete'
 require './lib/handlers/patch'
 
 require './lib/transformer'
+require './lib/default_transformers'
 require './lib/transformer_registry'
+require './lib/transformer_executor'
 
 # require './lib/shutdown'
 module Magister

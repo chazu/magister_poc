@@ -11,6 +11,9 @@ module Magister
     end
 
     def initialize(http_request)
+
+      @history = []
+
       # Its a context if the request has a terminating slash -
       # Headers can be used as well, but keep it simple for now
       @is_context = http_request_indicates_context(http_request)
@@ -31,6 +34,11 @@ module Magister
       end # TODO Not really just headers, th entire rack env...
       @params
     end
+
+    def history
+      @history
+    end
+
     def as_hash
       {
         "name" => name,
