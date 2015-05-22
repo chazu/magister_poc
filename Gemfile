@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', '1.4.6'
+gem 'sinatra'
 gem 'rspec'
 gem 'rspec-mocks'
 gem 'nyan-cat-formatter'
@@ -9,6 +9,7 @@ gem 'rack-test'
 gem 'pry'
 gem 'shotgun'
 gem 'rufus-scheduler'
+gem 'rest-client'
 
 gem 'heist'
 gem 'daybreak'
@@ -16,4 +17,3 @@ gem 'daybreak'
 gem 'aws-sdk', '~> 2'
 
 gem 'colorize'
-gem 'ludi', :path => "./ludi"
