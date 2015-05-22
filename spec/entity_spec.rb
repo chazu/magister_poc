@@ -205,7 +205,7 @@ describe Entity do
 
   context 'contents' do
 
-    create_test_entity({:context => ["lets", "make"],
+    create_test_entity({:context => "/lets/make",
         :name => 'transform',
         :is_context => false,
         :data => "hello"})
@@ -221,7 +221,7 @@ describe Entity do
   end
 
   context 'find' do
-    create_test_entity({:context => ["lets", "make", "happy"],
+    create_test_entity({:context => "/lets/make/happy",
         :name => 'times',
         :is_context => false,
         :data => "hello"})

@@ -55,4 +55,13 @@ describe Request do
       expect(hash["is_context"]).to eq(false)
     end
   end
+
+  context 'history' do
+    it 'should have an instance method called history' do
+      request = double("request", path: "/foo/baz/quux/bar", env: {})
+      mag_request = Request.new(request)
+
+      expect(mag_request.public_methods).to include(:history)
+    end
+  end
 end

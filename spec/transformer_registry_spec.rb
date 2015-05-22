@@ -7,12 +7,12 @@ module Magister
 
     context 'initialize_register' do
 
-      create_test_entity({:context => ["_", "transformers", "hello"],
+      create_test_entity({:context => "/_/transformers/hello",
           :name => 'transform',
           :is_context => false,
           :data => "hello"})
 
-      create_test_entity({:context => ["this", "isnt", "good", "for", "me", "_", "transformers", "hiya"],
+      create_test_entity({:context => "/this/isnt/good/for/me/_/transformers/hiya",
           :name => 'transform',
           :is_context => false,
           :data => "hello"})

@@ -40,7 +40,7 @@ describe Magister::Helpers do
 
   context "context_exists" do
     create_test_entity({
-                         :context => ["fnord"],
+                         :context => "/fnord",
                          :name => "foo",
                          :is_context => true,
                          :data => nil

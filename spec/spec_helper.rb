@@ -2,6 +2,8 @@ require "./lib/magister.rb"
 ENV['MAGISTER_ENV'] = "test"
 require "./app.rb"
 
+include Magister::Helpers
+
 def register_transformer class_name
   # TODO Clear out transformer registry, add specified transformer instance to registry
 end
@@ -11,12 +13,13 @@ def runtime_eval expression
 end
 
 def create_test_entity options
-  ent = Magister::Entity.new({:context => options[:context],
+  ent = Magister::Entity.new({:context => index_key_to_context_array(options[:context]),
                               :name => options[:name],
-                              :is_context => options[:is_context]},
+                              :is_context => options[:is_context]} || false,
                              options[:data])
   ent.persist_recursively
 end
+
 
 # Take an array of length 2 and return a Heist Cons for it.
 def make_cons_pair pair
