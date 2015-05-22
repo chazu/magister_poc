@@ -20,10 +20,13 @@ store = Magister::Store.new
 Magister::Config.set_store store
 Magister::Config.set_index Magister::Index.new store
 
+# Initialize default transformer
+default = Magister::DefaultTransformers::DefaultTransformerText.new
+
 # Initialize Transformer Registry
 Magister::TransformerRegistry.initialize_register
 
-Magister::Scheduler.instance
+#Magister::Scheduler.instance
 
 module Magister
   class App < Sinatra::Application
