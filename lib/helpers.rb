@@ -6,6 +6,14 @@ module Magister
     def context_array_to_index_key(context_array)
       "/" + context_array.join("/")
     end
+
+    def index_key_to_context_array(index_key)
+      res = index_key == "/" ? [] : index_key.split("/")
+      if res.length > 0
+        res.shift
+      end
+      res
+    end
     
     def context_exists index_key
       if index_key == "/"
