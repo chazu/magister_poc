@@ -4,7 +4,6 @@ module Magister
     module GetHandler
       def self.included base
         base.get "*" do
-          binding.pry
           req = Request.new(request)
           index_key = Entity.request_index_key(req)
           ent = Entity.find(index_key)
