@@ -1,6 +1,21 @@
-require "./lib/magister.rb"
 ENV['MAGISTER_ENV'] = "test"
+ENV['RACK_ENV'] = 'test'
+
+require "./lib/magister.rb"
 require "./app.rb"
+require 'rack/test'
+require 'rspec'
+require 'pry'
+
+OUTER_APP = Rack::Builder.parse_file('config.ru').first
+
+module RSpecMixin
+  include Rack::Test::Methods
+
+  def app
+    OUTER_APP
+  end
+end
 
 include Magister::Helpers
 
@@ -20,7 +35,6 @@ def create_test_entity options
   ent.persist_recursively
 end
 
-
 # Take an array of length 2 and return a Heist Cons for it.
 def make_cons_pair pair
   Heist::Runtime::Cons.new pair[0], pair[1]
@@ -39,23 +53,13 @@ def inject_data data, name
   @@runtime.send(:exec, [:define, name.to_sym, [ :quote, data ] ])
 end
 
-require 'rack/test'
-require 'rspec'
-require 'pry'
 
 RSpec.configure do |c|
+  c.include RSpecMixin
   before :all do
     if File.file?(Magister::Config.options["indexFileKey"])
       File.delete(Magister::Config.options["indexFileKey"])
     end
     Magister::Config.store.store.clear!
   end
-end
-
-ENV['RACK_ENV'] = 'test'
-
-include Rack::Test::Methods
-
-def app
-  Magister::App
 end
