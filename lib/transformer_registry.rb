@@ -21,10 +21,12 @@ module Magister
           -1
         end
       end
+
       # Filter for request verbs
       handles_specified_verb = eligible_transformers.select do |transformer|
         transformer.verbs.include? req.headers["REQUEST_METHOD"]
       end
+
       # Filter on the 'returns' types for each transformer
       if req.headers["HTTP_ACCEPT"] && req.headers["HTTP_ACCEPT"] != "*/*"
         return_specified_type = handles_specified_verb.select do |transformer|
@@ -33,6 +35,7 @@ module Magister
       else
         return_specified_type = eligible_transformers
       end
+
       # Filter out the ones that don't transform the content-type specified in the request
       if req.headers["CONTENT_TYPE"] && req.headers["CONTENT_TYPE"] != "*/*"
         transform_specified_type = return_specified_type.select do |transformer|
