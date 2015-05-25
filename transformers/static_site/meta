@@ -1,5 +1,4 @@
-(meta
- '(transforms "*/*")
- '(returns "*/*")
- '(verbs "GET")
- '(deps ()))
+(transforms "*/*")
+(returns "*/*")
+(verbs "GET")
+(deps ()))

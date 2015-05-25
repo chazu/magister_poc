@@ -24,11 +24,10 @@ HERE
                             name: "meta",
                             is_context: false
                           }, <<HERE
-(meta
- '(transforms "*/*")
- '(returns "text/plain")
- '(verbs "GET")
- '("deps" ()))
+(transforms "*/*")
+(returns "text/plain")
+(verbs "GET")
+;;(deps)
 HERE
                          )
 

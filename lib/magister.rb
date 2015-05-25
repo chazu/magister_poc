@@ -15,7 +15,8 @@ require './lib/handlers/delete'
 require './lib/handlers/patch'
 
 require './lib/transformer'
-require './lib/default_transformers'
+require './lib/default_transformer_text'
+require './lib/default_transformer_json'
 require './lib/transformer_registry'
 require './lib/transformer_executor'
 

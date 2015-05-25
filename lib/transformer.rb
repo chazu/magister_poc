@@ -14,10 +14,13 @@ module Magister
       # Load actual transformer code into runtime
       @entity = transformer_entity
       @domain = domain_from_installed_context transformer_entity
-
       @source = Entity.find(transformer_entity.index_key + "/transform").data
       @meta = Entity.find(transformer_entity.index_key + "/meta").data
       @config = Entity.find(transformer_entity.index_key + "/config").data
+
+      @transforms = {}
+      @returns = {}
+
       # Response ivars
       @status = nil
       @headers = []
@@ -25,6 +28,7 @@ module Magister
       
       # Configure special forms
       define_builtins
+
       #
       # TODO Should these be procs or just injected data?
       # Return the index key of the directory holding this transformer

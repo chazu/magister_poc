@@ -17,8 +17,36 @@ module Magister
         # TODO Implicitly call another transformer
       end
       
-      @runtime.define 'meta' do |transforms, returns, verbs, deps|
-        @transforms, @returns, @verbs, @deps = from_sexp(transforms.cdr), from_sexp(returns.cdr), from_sexp(verbs.cdr), from_sexp(deps.cdr)
+      @runtime.define 'verbs' do |*verb_list|
+        @verbs = from_sexp(verb_list)
+      end
+
+      @runtime.define 'deps' do |*deps_list|
+        @deps = from_sexp(deps_list).flatten
+      end
+      
+      @runtime.define 'transforms' do |type|
+        major, minor = from_sexp(type).split("/")
+
+        if !@transforms[major]
+          @transforms[major] = []
+        end
+
+        if @transforms[major] && !@transforms[major].include?(minor)
+          @transforms[major] << minor
+        end
+      end
+
+      @runtime.define 'returns' do |type|
+        major, minor = from_sexp(type).split("/")
+
+        if !@returns[major]
+          @returns[major] = []
+        end
+
+        if @returns[major] && !@returns[major].include?(minor)
+          @returns[major] << minor
+        end
       end
 
       @runtime.define 'string-sub' do |string, find, replace|
@@ -42,7 +70,6 @@ module Magister
       @runtime.define 'entity-data' do |entity|
         entity.data
       end
-      
       #
       #
       # Setting status, headers and body
