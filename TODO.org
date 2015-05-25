@@ -1,9 +1,10 @@
 * General/Transformer Registry
-** TODO Add default transformer subclass for when requests aren't caught.
+** STARTED Add default transformer subclass for when requests aren't caught.
 *** DONE Respond with text
     CLOSED: [2015-05-21 Thu 15:38]
 *** TODO Respond with html
-*** TODO Respond with json
+*** DONE Respond with json
+    CLOSED: [2015-05-25 Mon 13:26]
 *** TODO Respond with sexp
 ** STARTED Write transformer to synchronize feedhq starred entries periodically
 ** TODO Create transformer tool for editing transformers
@@ -108,3 +109,5 @@
 ** DONE Create 'find' method for Entity, for use in get handler
 ** DONE Create scheduler entity
    CLOSED: [2015-05-20 Wed 12:59]
+** DONE Rewrite metadata DSL for transformers
+   CLOSED: [2015-05-25 Mon 13:27]
